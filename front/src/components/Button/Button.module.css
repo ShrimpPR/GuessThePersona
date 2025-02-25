@@ -1,0 +1,22 @@
+.buttonItem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px;
+    font-size: 1.2rem;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+    gap: 3rem;
+}
+
+.buttonIcon {
+    max-width: 50px;
+}
+
+.title {
+    font-size: 1.5rem;
+}

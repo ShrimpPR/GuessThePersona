@@ -1,9 +1,51 @@
-.chatContainer {
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #030330;
+  color: white;
+}
+
+.menuContainer {
+  width: 20%;
+  background-color: #050844;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #241a2c;
-  color: white;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.logoImage {
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.menuItem {
+  padding: 12px;
+  font-size: 1.2rem;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+.menuItemsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  width: 100%;
+}
+
+.menuItem:hover {
+  background-color: #e0e0e0;
+}
+
+.chatContainer {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
   padding: 16px;
 }
 
@@ -11,9 +53,6 @@
   flex: 1;
   overflow-y: auto;
   border: 1px solid #3a2d48;
-  width: 50%;
-  min-width: 25%;
-  margin-left: 5rem;
   padding: 16px;
   border-radius: 8px;
 }
@@ -44,9 +83,7 @@
 .inputContainer {
   margin-top: 16px;
   display: flex;
-  width: 50%;
-  min-width: 25%;
-  margin-left: 5rem;
+  width: 100%;
 }
 
 .inputField {
@@ -66,39 +103,39 @@
   border-radius: 8px;
 }
 
-  .validationContainer {
-    position: absolute;
-    top: 10rem;
-    right: 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30%;
-    min-width: 20%;
-  }
+.validationContainer {
+  position: absolute;
+  top: 10rem;
+  right: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  min-width: 20%;
+}
 
-  .validationField {
-    flex: 1;
-    padding: 8px;
-    color: #fff;
-    border: 1px solid #402d48;
-    background-color: #402d48;
-    border-radius: 8px;
-  }
+.validationField {
+  flex: 1;
+  padding: 8px;
+  color: #fff;
+  border: 1px solid #402d48;
+  background-color: #402d48;
+  border-radius: 8px;
+}
 
-  .validationButton {
-    margin-left: 8px;
-    color: #fff;
-    background-color: #b41fd9;
-    padding: 8px;
-    border-radius: 8px;
-  }
+.validationButton {
+  margin-left: 8px;
+  color: #fff;
+  background-color: #b41fd9;
+  padding: 8px;
+  border-radius: 8px;
+}
 
-  .validationImage {
-    margin-bottom: 10px;
-  }
+.validationImage {
+  margin-bottom: 10px;
+}
 
-  .blurred {
-    filter: blur(30px);
-    transition: filter 0.3s ease-in-out;
-  }
+.blurred {
+  filter: blur(30px);
+  transition: filter 0.3s ease-in-out;
+}
