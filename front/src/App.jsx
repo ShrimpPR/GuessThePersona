@@ -20,7 +20,9 @@ function App() {
 				{/* login */}
 				<Route path="/login" element={<Login />} />
 
-        <Route path="/chatbox" element={<ChatBox />} />
+				{/* chatbox */}
+				<Route path="/chatbox" element={<ChatBox />} />
+
 				{/* dashboard */}
 				<Route
 					path="/dashboard"
