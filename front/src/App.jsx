@@ -6,6 +6,7 @@ import Register from "./pages/Login/Register";
 import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Wrapper from "./pages/Login/Wrapper";
+import ChatBox from "./pages/Chatbox/ChatBox";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
 
         {/* login */}
         <Route path="/login" element={<Login />} />
+
+        <Route path="/chatbox" element={<ChatBox />} />
 
         {/* dashboard */}
         <Route
