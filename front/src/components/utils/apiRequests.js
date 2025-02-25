@@ -27,7 +27,7 @@ export const handleRequest = async ({
           "x-api-key": "testapikey",
         },
         body: JSON.stringify({
-          model: "actual-model",
+          model: "actual-model-guess",
           prompt: inputText,
           stream: false,
         }),

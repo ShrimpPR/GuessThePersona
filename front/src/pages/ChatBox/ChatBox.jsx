@@ -25,6 +25,12 @@ const ChatBox = () => {
 
   return (
     <div className={styles.chatContainer}>
+      <div className={styles.menuContainer}>
+        <img src="public/Logo.png" alt="Guess the persona Logo" className={styles.logoImage}/>
+        <div className={styles.menuItem}>Home</div>
+        <div className={styles.menuItem}>About</div>
+        <div className={styles.menuItem}>Contact</div>
+      </div>
       <div className={styles.messagesContainer}>
         {messages.map((msg, index) => (
           <div key={index} className={`${styles.message} ${msg.sender === "user" ? styles.userMessage : styles.aiMessage}`}>
