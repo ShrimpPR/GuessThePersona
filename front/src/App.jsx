@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
@@ -9,33 +8,32 @@ import Wrapper from "./pages/Login/Wrapper";
 import ChatBox from "./pages/Chatbox/ChatBox";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* home */}
-        <Route path="/" element={<Home />} />
+	return (
+		<BrowserRouter>
+			<Routes>
+				{/* home */}
+				<Route path="/" element={<Home />} />
 
-        {/* register */}
-        <Route path="/register" element={<Register />} />
+				{/* register */}
+				<Route path="/register" element={<Register />} />
 
-        {/* login */}
-        <Route path="/login" element={<Login />} />
+				{/* login */}
+				<Route path="/login" element={<Login />} />
 
         <Route path="/chatbox" element={<ChatBox />} />
+				{/* dashboard */}
+				<Route
+					path="/dashboard"
+					element={
+						<Wrapper>
+							<Dashboard />
+						</Wrapper>
+					}
+				/>
 
-        {/* dashboard */}
-        <Route
-          path="/dashboard"
-          element={
-            <Wrapper>
-              <Dashboard />
-            </Wrapper>
-          }
-        />
-
-      </Routes>
-    </BrowserRouter>
-  );
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
