@@ -4,11 +4,11 @@ body {
 	background: linear-gradient(to right, #9b9796, #8f7272);
 }
 
-.heading {
+.container {
+	height: 10vh;
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	padding-bottom: 10px;
+	justify-content: center;
 	border-bottom: 2px solid;
 }
 
@@ -17,7 +17,15 @@ body {
 	text-align: center;
 	justify-content: center;
 	align-items: center;
-	height: 5%;
+	height: 50px;
+	padding-right: 20px;
+}
+
+.title {
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	padding-left: 20px;
 }
 
 h2 {
@@ -29,7 +37,7 @@ h2 {
 .account-box {
 	width: 600px;
 	padding: 20px;
-	background-color: #440065;
+	background-color: #a265be97;
 	border-radius: 20px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	text-align: center;
@@ -90,6 +98,10 @@ h2 {
 	justify-content: center;
 	padding-top: 40px;
 	color: #a6a6a6;
+}
+
+.linking {
+	margin-left: 5px;
 }
 
 #register-txt {
