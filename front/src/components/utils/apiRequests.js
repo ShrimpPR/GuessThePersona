@@ -31,7 +31,7 @@ export const handleRequest = async ({
 
 	try {
 		const endpoint = type === "message" ? "generate" : "validate";
-		const response = await fetch(`https://1591-2a01-e0a-208-bfa0-b5f4-c0bf-525-e67c.ngrok-free.app/api/${endpoint}`, {
+		const response = await fetch(`https://cda4-209-206-8-34.ngrok-free.app/api/${endpoint}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "text/plain",
