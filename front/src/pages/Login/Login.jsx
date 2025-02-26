@@ -145,7 +145,7 @@ function Login() {
 					</div>
 					<p className="forgottenpwd">Mot de passe oublié ?</p>
 					<div className="login-buttons">
-						<Button variant="outlined" type="submit" id="button">Login</Button>
+						<Button variant="outlined" type="submit" id="button">Connexion</Button>
 					</div>
 					<div className="login-gotoregister">
 						<span>Pour créer un compte :</span>
