@@ -7,6 +7,7 @@
 
 .menuContainer {
   width: 20%;
+  min-width: 280px;
   background-color: #050844;
   display: flex;
   flex-direction: column;
@@ -52,7 +53,7 @@
 .messagesContainer {
   flex: 1;
   overflow-y: auto;
-  border: 1px solid #3a2d48;
+  /* border: 1px solid #3a2d48; */
   padding: 16px;
   border-radius: 8px;
 }
@@ -65,7 +66,8 @@
 }
 
 .userMessage {
-  background-color: #9a1ce3;
+  border: 3px solid #de97ff;
+  color: #fff;
   align-self: flex-end;
   margin-left: auto;
   width: fit-content;
@@ -74,7 +76,8 @@
 }
 
 .aiMessage {
-  background-color: #5f4a68;
+  border: 3px solid #de97ff;
+  color: #fff;
   align-self: flex-start;
   width: fit-content;
   word-wrap: break-word;
@@ -87,20 +90,27 @@
 }
 
 .inputField {
+  position: relative;
   flex: 1;
   padding: 8px;
-  color: #fff;
-  border: 1px solid #402d48;
-  background-color: #402d48;
-  border-radius: 8px;
+  color: #5c5c5c;
+  font-weight: 700;
+  background-color: #fff;
+  border-radius: 30px;
+  height: 4rem;
 }
 
 .sendButton {
+  position: relative;
   margin-left: 8px;
   color: #fff;
-  background-color: #b41fd9;
+  background-color: #de97ff;
   padding: 8px;
-  border-radius: 8px;
+  width: 4rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .validationContainer {
@@ -115,27 +125,55 @@
 }
 
 .validationField {
+  position: relative;
   flex: 1;
   padding: 8px;
-  color: #fff;
-  border: 1px solid #402d48;
-  background-color: #402d48;
-  border-radius: 8px;
+  color: #5c5c5c;
+  font-weight: 700;
+  background-color: #fff;
+  border-radius: 30px;
+  height: 4rem;
 }
 
 .validationButton {
+  position: relative;
   margin-left: 8px;
   color: #fff;
-  background-color: #b41fd9;
+  background-color: #de97ff;
   padding: 8px;
-  border-radius: 8px;
+  width: 4rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .validationImage {
-  margin-bottom: 10px;
+  margin-bottom: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.validationCircle {
+  position: absolute;
+  width: 33rem;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 .blurred {
   filter: blur(30px);
   transition: filter 0.3s ease-in-out;
+}
+
+.chatBoxTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 4rem;
+  font-weight: 700;
 }

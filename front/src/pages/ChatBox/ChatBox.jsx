@@ -23,54 +23,64 @@ const ChatBox = () => {
     return () => clearInterval(interval);
   }, [isTyping]);
 
+  const handleRedirect = (url) => {
+    window.location.href = url;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.menuContainer}>
         <img src="/Logo.png" alt="Guess the persona Logo" className={styles.logoImage} />
         <div className={styles.menuItemsContainer}>
-          <Button img="/Icons/houseIcon.svg" title="Home" />
+          <Button img="/Icons/houseIcon.svg" title="Accueil" onClick={() => handleRedirect("/dashboard")}/>
           <Button img="/Icons/cupIcon.svg" title="Récompenses" />
-          <Button img="/Icons/instaIcon.svg" title="Suis-nous !" />
+          <Button img="/Icons/instaIcon.svg" title="Suis-nous !" onClick={() => handleRedirect("https://www.instagram.com")} />
         </div>
         <div className={styles.menuItem}>Contact(temp)</div>
       </div>
 
-      <div className={styles.chatContainer}>
-        <div className={styles.messagesContainer}>
-          {messages.map((msg, index) => (
-            <div key={index} className={`${styles.message} ${msg.sender === "user" ? styles.userMessage : styles.aiMessage}`}>
-              {msg.text}
-            </div>
-          ))}
-          {isTyping && <div className={styles.typingIndicator}>{typingDots}</div>}
+      <div className={styles.chatBoxContainer}>
+        <div className={styles.chatContainer}>
+          <div className={styles.chatBoxTitle}>DEVINE <p style={{ color: "#de97ff"}}>QUI JE SUIS</p></div>
+          <div className={styles.messagesContainer}>
+            {messages.map((msg, index) => (
+              <div key={index} className={`${styles.message} ${msg.sender === "user" ? styles.userMessage : styles.aiMessage}`}>
+                {msg.text}
+              </div>
+            ))}
+            {isTyping && <div className={styles.typingIndicator}>{typingDots}</div>}
+          </div>
+
+          <div className={styles.inputContainer}>
+            <input
+              className={styles.inputField}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Pose ta question !"
+              onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
+            />
+            <button className={styles.sendButton} onClick={() => handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}>
+              <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem"}}/>
+            </button>
+          </div>
         </div>
 
-        <div className={styles.inputContainer}>
-          <input
-            className={styles.inputField}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask a question..."
-            onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
-          />
-          <button className={styles.sendButton} onClick={() => handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}>
-            Send
-          </button>
+        <div className={styles.validationContainer}>
+          <img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
+          <img src="https://picsum.photos/seed/picsum/450/450" alt="" className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`} />
+          <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+            <input
+              className={styles.validationField}
+              value={validationInput}
+              onChange={(e) => setValidationInput(e.target.value)}
+              placeholder="Trouve son nom !"
+              onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
+            />
+            <button className={styles.validationButton} onClick={() => handleRequest({ type: "validate", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}>
+              <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem"}}/>
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div className={styles.validationContainer}>
-        <img src="https://picsum.photos/seed/picsum/450/450" alt="" className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`} />
-        <input
-          className={styles.validationField}
-          value={validationInput}
-          onChange={(e) => setValidationInput(e.target.value)}
-          placeholder="Enter validation request..."
-          onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
-        />
-        <button className={styles.validationButton} onClick={() => handleRequest({ type: "validate", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}>
-          Validate
-        </button>
       </div>
     </div>
   );
