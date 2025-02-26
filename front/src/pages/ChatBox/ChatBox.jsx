@@ -12,6 +12,7 @@ const ChatBox = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [typingDots, setTypingDots] = useState("Typing");
   const [isBlurred, setIsBlurred] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     if (!isTyping) return;
@@ -24,6 +25,43 @@ const ChatBox = () => {
 
     return () => clearInterval(interval);
   }, [isTyping]);
+
+  const fetchUserData = async () => {
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+
+    const user = userData?.user;
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("is_guessed, questions, guesses")
+        .eq("user_id", user.id)
+        .single();
+  
+      if (error) {
+        console.error("Error fetching user data:", error);
+        return null;
+      }
+  
+      return data;
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+  
+    fetchUserData().then((data) => {
+      if (data) {
+        setUserData(data);
+      }
+    });
+  }, []);
+
 
   const handleRedirect = (url) => {
     window.location.href = url;
@@ -57,8 +95,6 @@ const ChatBox = () => {
           </button>
         </div>
       </div>
-
-      <div className={styles.separator}></div>
 
       <Validation
         validationInput={validationInput}

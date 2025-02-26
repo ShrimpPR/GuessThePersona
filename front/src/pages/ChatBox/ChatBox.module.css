@@ -2,7 +2,8 @@
   position: relative;
   display: flex;
   height: 100vh;
-  background-color: #030330;
+  /* background: linear-gradient(90deg, #030330 60%, #de97ff 80%); */
+  background: #030330;
   color: white;
 }
 
