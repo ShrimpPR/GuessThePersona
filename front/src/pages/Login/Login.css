@@ -1,18 +1,38 @@
 body {
 	box-sizing: border-box;
-	font-family: 'Arial', sans-serif;
+	font-family: 'Montserrar', sans-serif;
 	background: linear-gradient(to right, #9b9796, #8f7272);
 }
 
+.heading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 10px;
+	border-bottom: 2px solid;
+}
+
+.logo {
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	height: 5%;
+}
+
+h2 {
+	font-size: 26px;
+	font-weight: bold;
+	margin-top: 20px;
+}
+
 .account-box {
-	width: 500px;
-	height: 500px;
-	background-color: rgba(71, 66, 66, 0.055);
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border-radius: 10px;
+	width: 600px;
+	padding: 20px;
+	background-color: #440065;
+	border-radius: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	text-align: center;
 }
 
 .login-buttons {
@@ -43,6 +63,14 @@ body {
 	cursor: pointer;
 }
 
+.forgottenpwd {
+	font-size: 13px;
+	display: flex;
+	justify-content: center;
+	margin-top: 160px;
+	margin-left: 30%;
+}
+
 .login-entries {
 	display: flex;
 	justify-content: center;
@@ -60,15 +88,8 @@ body {
 .login-gotoregister {
 	display: flex;
 	justify-content: center;
-	width: 50%;
-	margin: 0 auto;
-	gap: 10px;
-
-	position: absolute;
-	bottom: 10%;
-	left: 50%;
-	transform: translateX(-50%);
-	color: #3B3534;
+	padding-top: 40px;
+	color: #a6a6a6;
 }
 
 #register-txt {

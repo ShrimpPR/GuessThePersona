@@ -4,9 +4,7 @@ import supabase from "../../helper/supabaseClient";
 import { Link, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
 import "./Login.css";
-
 
 function Login() {
 	const navigate = useNavigate();
@@ -22,7 +20,7 @@ function Login() {
 				const user = userData?.user;
 				if (user) {
 					// S'il y a un utilisateur, on redirige vers /dashboard
-					navigate("/dashboard");
+					navigate("/chatbox");
 					return;
 				}
 				if (userError) {
@@ -91,19 +89,44 @@ function Login() {
 			}
 
 			// Redirection vers le tableau de bord après connexion
-			navigate("/dashboard");
+			navigate("/chatbox");
 		}
 	};
 
 	return (
 		<div>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+				rel="stylesheet"
+			/>
+			<div className="heading">
+				<table
+					direction="row"
+				>
+					<tr>
+						<td>
+							<img
+								src="/LogoNoName.png"
+								alt="Guess the persona Logo"
+								className="logo"
+							/>
+						</td>
+						<td>
+							<img
+								src="/NoLogo.png"
+								alt="Guess the persona"
+								className="title"
+							/>
+						</td>
+					</tr>
+				</table>
+			</div>
 			<br />
 			{message && <span>{message}</span>}
 			<div className="account-box">
+				<h2>Connexion Utilisateur</h2>
 				<form onSubmit={handleSubmit}>
-
 					<div className="login-entries">
-
 						<TextField
 							onChange={(e) => setEmail(e.target.value)}
 							value={email}
@@ -112,8 +135,11 @@ function Login() {
 							variant="outlined"
 							type="email"
 							required
+							sx={{
+								background: "white",
+								borderRadius: "5px",
+							}}
 						/>
-
 						<TextField
 							onChange={(e) => setPassword(e.target.value)}
 							value={password}
@@ -122,18 +148,19 @@ function Login() {
 							type="password"
 							autoComplete="current-password"
 							required
+							sx={{
+								background: "white",
+								borderRadius: "5px",
+							}}
 						/>
-
 					</div>
-
-
+					<p className="forgottenpwd">Mot de passe oublié ?</p>
 					<div className="login-buttons">
 						<Button variant="outlined" type="submit" id="button">Login</Button>
 					</div>
 					<div className="login-gotoregister">
-						<span>Don't have an account ?</span>
-						<Link to="/register" id="register-txt">Register</Link>
-
+						<span>Pour créer un compte ?</span>
+						<Link to="/register" id="register-txt">Cliquez-ici</Link>
 					</div>
 				</form>
 			</div>

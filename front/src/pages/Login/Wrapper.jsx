@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import supabase from "../../helper/supabaseClient";
 import { Navigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 function Wrapper({ children }) {
 	const [authenticated, setAuthenticated] = useState(false);
 	const [loading, setLoading] = useState(true);
