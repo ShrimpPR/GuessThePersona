@@ -4,8 +4,10 @@ import { handleRequest } from "../../components/utils/apiRequests";
 import Menu from "../../components/Menu/Menu";
 import Validation from "../../components/Validation/Validation";
 import supabase from "../../helper/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 const ChatBox = () => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [validationInput, setValidationInput] = useState("");
@@ -15,6 +17,7 @@ const ChatBox = () => {
   const [userData, setUserData] = useState(null);
   const [questions, setQuestions] = useState(0);
   const [guesses, setGuesses] = useState(0);
+  const [memory, setMemory] = useState(null);
 
   useEffect(() => {
     if (!isTyping) return;
@@ -27,6 +30,65 @@ const ChatBox = () => {
 
     return () => clearInterval(interval);
   }, [isTyping]);
+
+  const fetchMemory = async () => {
+    try {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) {
+          console.error("Erreur récupération utilisateur :", userError.message);
+          return;
+      }
+  
+      const user = userData?.user;
+      if (!user) {
+          navigate("/login");
+          return;
+      }
+      const response = await fetch("https://cda4-209-206-8-34.ngrok-free.app/api/getmemory", {
+        method: "POST",
+        headers: {
+          "x-api-key": "testapikey",
+          "x-user-id": user.id,
+        },
+        body: JSON.stringify({ model: "guess" }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      console.log(userData?.user?.id);
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching memory:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    fetchMemory().then((data) => {
+      if (data && data.response) {
+        console.log("Memory fetched:", data.response);
+
+        const responseArray = Array.isArray(data.response) ? data.response : [data.response];
+
+        const parsedMessages = responseArray.flatMap((entry) =>
+          entry.split("\n").map((line) => {
+            if (line.startsWith("user:")) {
+              return { sender: "user", text: line.replace("user: ", "") };
+            } else if (line.startsWith("ollama:")) {
+              return { sender: "ollama", text: line.replace("ollama: ", "") };
+            }
+            return null;
+          }).filter(Boolean)
+        );
+
+        setMemory(data);
+        setMessages(parsedMessages);
+      }
+    });
+  }, []);
 
   const decrementQuestions = async () => {
     if (questions <= 0) {
