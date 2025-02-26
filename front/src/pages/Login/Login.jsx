@@ -19,7 +19,7 @@ function Login() {
 				const user = userData?.user;
 				if (user) {
 					// S'il y a un utilisateur, on redirige vers /dashboard
-					navigate("/chatbox");
+					navigate("/guesschatbox");
 					return;
 				}
 				if (userError) {
@@ -88,12 +88,12 @@ function Login() {
 			}
 
 			// Redirection vers le tableau de bord après connexion
-			navigate("/chatbox");
+			navigate("/guesschatbox");
 		}
 	};
 
 	return (
-		<div>
+		<div className="main-container">
 			<link
 				href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 				rel="stylesheet"
@@ -102,12 +102,12 @@ function Login() {
 				<img
 					src="/LogoNoName.png"
 					alt="Guess the persona Logo"
-					className="logo"
+					className="login-logo"
 				/>
 				<img
 					src="/NoLogo.png"
 					alt="Guess the persona"
-					className="title"
+					className="login-title"
 				/>
 			</div>
 			<br />
@@ -127,6 +127,17 @@ function Login() {
 							sx={{
 								background: "white",
 								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white', // Set the outline color to white
+									},
+									'&:hover fieldset': {
+										borderColor: 'white', // Set the outline color to white on hover
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white', // Set the outline color to white when focused
+									},
+								},
 							}}
 						/>
 						<TextField
@@ -140,16 +151,34 @@ function Login() {
 							sx={{
 								background: "white",
 								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white', // Set the outline color to white
+									},
+									'&:hover fieldset': {
+										borderColor: 'white', // Set the outline color to white on hover
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white', // Set the outline color to white when focused
+									},
+								},
 							}}
 						/>
 					</div>
 					<p className="forgottenpwd">Mot de passe oublié ?</p>
 					<div className="login-buttons">
-						<Button variant="outlined" type="submit" id="button">Connexion</Button>
+						<Button
+							className="login"
+							variant="outlined"
+							type="submit"
+							id="button"
+						>
+							Connexion
+						</Button>
 					</div>
 					<div className="login-gotoregister">
-						<span>Pour créer un compte :</span>
-						<Link className="linking" to="/register" id="register-txt">cliquez-ici</Link>
+						<span>Pas de compte ?</span>
+						<Link to="/register" id="register-txt">Inscription</Link>
 					</div>
 				</form>
 			</div>

@@ -4,6 +4,10 @@ body {
 	background: linear-gradient(to right, #9b9796, #8f7272);
 }
 
+.main-container {
+	background: #171757;
+}
+
 .account-box {
 	width: 500px;
 	height: 500px;
@@ -68,7 +72,7 @@ body {
 	bottom: 10%;
 	left: 50%;
 	transform: translateX(-50%);
-	color: #3B3534;
+	color: #b9aca9;
 }
 
 #login-txt {

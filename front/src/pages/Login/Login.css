@@ -4,6 +4,10 @@ body {
 	background: linear-gradient(to right, #9b9796, #8f7272);
 }
 
+.main-container {
+	background: #171757;
+}
+
 .container {
 	height: 10vh;
 	display: flex;
@@ -12,16 +16,16 @@ body {
 	border-bottom: 2px solid;
 }
 
-.logo {
+.login-logo {
 	display: flex;
 	text-align: center;
 	justify-content: center;
 	align-items: center;
-	height: 50px;
+	height: 65%;
 	padding-right: 20px;
 }
 
-.title {
+.login-title {
 	display: flex;
 	text-align: center;
 	justify-content: center;
@@ -61,7 +65,7 @@ h2 {
 	background-color: transparent;
 	color: #ffffff;
 	border: 1px solid #ffffff;
-
+	display: flex;
 }
 
 #button:hover {
@@ -96,8 +100,15 @@ h2 {
 .login-gotoregister {
 	display: flex;
 	justify-content: center;
-	padding-top: 40px;
-	color: #a6a6a6;
+	width: 70%;
+	margin: 0 auto;
+	gap: 10px;
+
+	position: absolute;
+	bottom: 10%;
+	left: 50%;
+	transform: translateX(-50%);
+	color: #b9aca9;
 }
 
 .linking {
@@ -107,4 +118,9 @@ h2 {
 #register-txt {
 	color: #ffffff;
 	text-decoration: none;
+}
+
+.login {
+	margin-left: 10px;
+	margin-right: 100px;
 }
