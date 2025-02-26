@@ -13,6 +13,8 @@ const ChatBox = () => {
   const [typingDots, setTypingDots] = useState("Typing");
   const [isBlurred, setIsBlurred] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [questions, setQuestions] = useState(0);
+  const [guesses, setGuesses] = useState(0);
 
   useEffect(() => {
     if (!isTyping) return;
@@ -25,6 +27,40 @@ const ChatBox = () => {
 
     return () => clearInterval(interval);
   }, [isTyping]);
+
+  const decrementQuestions = async () => {
+    if (questions <= 0) {
+        console.log("Aucune question disponible.");
+        return;
+    }
+
+    const newQuestionCount = questions - 1;
+
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError) {
+        console.error("Erreur récupération utilisateur :", userError.message);
+        return;
+    }
+
+    const user = userData?.user;
+    if (!user) {
+        navigate("/login");
+        return;
+    }
+
+    const { error } = await supabase
+        .from("profiles")
+        .update({ questions: newQuestionCount })
+        .eq("user_id", user.id);
+
+    if (error) {
+        console.error("Erreur en mettant à jour les questions :", error.message);
+        return;
+    }
+
+    setQuestions(newQuestionCount);
+    console.log("Questions mises à jour avec succès !");
+  };
 
   const fetchUserData = async () => {
     const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -54,14 +90,21 @@ const ChatBox = () => {
   };
 
   useEffect(() => {
-  
     fetchUserData().then((data) => {
       if (data) {
         setUserData(data);
+        setQuestions(data.questions);
       }
     });
   }, []);
 
+  const handleSubmitQuestion = () => {
+    if (questions <= 0) return;
+
+    decrementQuestions();
+
+    handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred });
+  };
 
   const handleRedirect = (url) => {
     window.location.href = url;
@@ -88,9 +131,14 @@ const ChatBox = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Pose ta question !"
-            onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
+            onKeyUp={(e) => e.key === "Enter" && handleSubmitQuestion()}
+            disabled={questions <= 0}
           />
-          <button className={styles.sendButton} onClick={() => handleRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}>
+          <button
+            className={styles.sendButton}
+            onClick={handleSubmitQuestion}
+            disabled={questions <= 0}
+          >
             <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
           </button>
         </div>
