@@ -5,7 +5,7 @@ import Register from "./pages/Login/Register";
 import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Wrapper from "./pages/Login/Wrapper";
-import ChatBox from "./pages/Chatbox/ChatBox";
+import ChatBox from "./pages/ChatBox/ChatBox";
 
 function App() {
 	return (
