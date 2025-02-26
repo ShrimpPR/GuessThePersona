@@ -1,11 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import DiscussChatBox from "./pages/ChatBox/discuss/DiscussChatBox";
+import GuessChatBox from "./pages/ChatBox/Guess/GuessChatBox";
 import Home from "./pages/Home/Home";
-import Register from "./pages/Login/Register";
 import Login from "./pages/Login/Login";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Wrapper from "./pages/Login/Wrapper";
-import ChatBox from "./pages/ChatBox/ChatBox";
+import Register from "./pages/Register/Register";
+import Loose from "./pages/Loose/Loose";
 
 function App() {
 	return (
@@ -21,17 +20,16 @@ function App() {
 				<Route path="/login" element={<Login />} />
 
 				{/* chatbox */}
-				<Route path="/chatbox" element={<ChatBox />} />
+				<Route path="/guesschatbox" element={<GuessChatBox />} />
 
-				{/* dashboard */}
-				<Route
-					path="/dashboard"
-					element={
-						<Wrapper>
-							<Dashboard />
-						</Wrapper>
-					}
-				/>
+				{/* discusschatbox */}
+				<Route path="/discusschatbox" element={<DiscussChatBox />} />
+
+				{/* loose */}
+				<Route path="/loose" element={<Loose />} />
+
+				{/* win */}
+				<Route path="/win" />
 
 			</Routes>
 		</BrowserRouter>
