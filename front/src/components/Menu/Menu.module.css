@@ -17,10 +17,9 @@
 
 .menuItem {
 	padding: 12px;
-	font-size: 1.2rem;
+	font-size: 14px;
 	color: #fff;
 	cursor: pointer;
-	width: 100%;
 	text-align: center;
 	border-radius: 8px;
 	transition: background 0.3s ease-in-out;
@@ -28,9 +27,19 @@
 
 .menuItemsContainer {
 	display: flex;
+	text-align: left;
 	flex-direction: column;
-	gap: 3vh;
+	gap: 0.5vh;
 	width: 100%;
+}
+
+.menuItemsContainer img {
+	height: 40px;
+	text-align: center;
+}
+
+.menuItemsContainer title {
+	align-content: left;
 }
 
 .menuItem:hover {

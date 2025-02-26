@@ -25,6 +25,9 @@ const Menu = () => {
 				<Button img="/Icons/houseIcon.svg" title="Accueil" onClick={() => navigate("/")} />
 				<Button img="/Icons/cupIcon.svg" title="Récompenses" />
 				<Button img="/Icons/instaIcon.svg" title="Suis-nous !" onClick={() => window.open("https://www.instagram.com", "_blank")} />
+				<Button img="/Icons/questionIcon.svg" title="Besoin d'aide ?" />
+				<Button img="/Icons/chatIcon.svg" title="Trouve-moi" />
+				<Button img="/Icons/chatIcon.svg" title="Parle-moi" />
 			</div>
 			<div className={styles.menuItem} onClick={handleLogout}>
 				<LogoutIcon sx={{ margin: "3px" }} />
