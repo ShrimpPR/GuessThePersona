@@ -55,7 +55,8 @@ function Home() {
 						variant="outlined"
 						href="/login"
 						id="button"
-						endIcon={<PlayCircleOutlineIcon />}
+						endIcon={
+							<PlayCircleOutlineIcon style={{ fontSize: 40 }} />}
 					>
 						JOUER
 					</Button>

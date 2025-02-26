@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import supabase from "../../helper/supabaseClient";
 import { Link, useNavigate } from "react-router-dom";
@@ -99,27 +98,17 @@ function Login() {
 				href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 				rel="stylesheet"
 			/>
-			<div className="heading">
-				<table
-					direction="row"
-				>
-					<tr>
-						<td>
-							<img
-								src="/LogoNoName.png"
-								alt="Guess the persona Logo"
-								className="logo"
-							/>
-						</td>
-						<td>
-							<img
-								src="/NoLogo.png"
-								alt="Guess the persona"
-								className="title"
-							/>
-						</td>
-					</tr>
-				</table>
+			<div className="container">
+				<img
+					src="/LogoNoName.png"
+					alt="Guess the persona Logo"
+					className="logo"
+				/>
+				<img
+					src="/NoLogo.png"
+					alt="Guess the persona"
+					className="title"
+				/>
 			</div>
 			<br />
 			{message && <span>{message}</span>}
@@ -156,11 +145,11 @@ function Login() {
 					</div>
 					<p className="forgottenpwd">Mot de passe oublié ?</p>
 					<div className="login-buttons">
-						<Button variant="outlined" type="submit" id="button">Login</Button>
+						<Button variant="outlined" type="submit" id="button">Connexion</Button>
 					</div>
 					<div className="login-gotoregister">
-						<span>Pour créer un compte ?</span>
-						<Link to="/register" id="register-txt">Cliquez-ici</Link>
+						<span>Pour créer un compte :</span>
+						<Link className="linking" to="/register" id="register-txt">cliquez-ici</Link>
 					</div>
 				</form>
 			</div>
