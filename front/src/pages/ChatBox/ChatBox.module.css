@@ -1,46 +1,9 @@
 .container {
+  position: relative;
   display: flex;
   height: 100vh;
   background-color: #030330;
   color: white;
-}
-
-.menuContainer {
-  width: 20%;
-  min-width: 280px;
-  background-color: #050844;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-}
-
-.logoImage {
-  max-width: 300px;
-  margin-bottom: 20px;
-}
-
-.menuItem {
-  padding: 12px;
-  font-size: 1.2rem;
-  color: #fff;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  border-radius: 8px;
-  transition: background 0.3s ease-in-out;
-}
-
-.menuItemsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 3vh;
-  width: 100%;
-}
-
-.menuItem:hover {
-  background-color: #e0e0e0;
 }
 
 .chatContainer {
@@ -59,10 +22,10 @@
 }
 
 .message {
-  padding: 8px;
+  padding: 17px;
   margin-bottom: 8px;
   max-width: 320px;
-  border-radius: 8px;
+  border-radius: 30px;
 }
 
 .userMessage {
@@ -94,7 +57,7 @@
   flex: 1;
   padding: 8px;
   color: #5c5c5c;
-  font-weight: 700;
+  font-weight: 900;
   background-color: #fff;
   border-radius: 30px;
   height: 4rem;
@@ -111,63 +74,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.validationContainer {
-  position: absolute;
-  top: 10rem;
-  right: 5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30%;
-  min-width: 20%;
-}
-
-.validationField {
-  position: relative;
-  flex: 1;
-  padding: 8px;
-  color: #5c5c5c;
-  font-weight: 700;
-  background-color: #fff;
-  border-radius: 30px;
-  height: 4rem;
-}
-
-.validationButton {
-  position: relative;
-  margin-left: 8px;
-  color: #fff;
-  background-color: #de97ff;
-  padding: 8px;
-  width: 4rem;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.validationImage {
-  margin-bottom: 4rem;
-  border-radius: 50%;
-  object-fit: cover;
-  position: relative;
-  z-index: 1;
-}
-
-.validationCircle {
-  position: absolute;
-  width: 33rem;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-}
-
-.blurred {
-  filter: blur(30px);
-  transition: filter 0.3s ease-in-out;
 }
 
 .chatBoxTitle {
