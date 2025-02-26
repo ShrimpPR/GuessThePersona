@@ -3,7 +3,6 @@ import styles from "./Validation.module.css";
 
 const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred }) => {
   const [imageUrl, setImageUrl] = useState("");
-  const [guesses, setGuesses] = useState(3);
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -83,26 +82,18 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
         className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
       />
       <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-      <input
-        className={styles.validationField}
-        value={validationInput}
-        onChange={(e) => setValidationInput(e.target.value)}
-        placeholder="Trouve son nom !"
-        onKeyUp={(e) => {
-            if (e.key === "Enter") {
-            decrementGuesses();
-            handleRequest({ type: "validate" });
-            }
-        }}
+        <input
+          className={styles.validationField}
+          value={validationInput}
+          onChange={(e) => setValidationInput(e.target.value)}
+          placeholder="Trouve son nom !"
+          onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
         />
         <button
-        className={styles.validationButton}
-        onClick={() => {
-            decrementGuesses();
-            handleRequest({ type: "validate" });
-        }}
+          className={styles.validationButton}
+          onClick={() => handleRequest({ type: "validate" })}
         >
-        <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
+          <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
         </button>
       </div>
     </div>
