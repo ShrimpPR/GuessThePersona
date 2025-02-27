@@ -1,0 +1,64 @@
+.LoseContainer {
+	position: relative;
+	display: flex;
+	height: 100vh;
+	background: #030330;
+	color: white;
+}
+
+.LoseContent {
+	width: 40%;
+	display: flex;
+	flex-direction: column;
+	padding: 16px;
+}
+
+.title {
+	font-size: 24px;
+	font-weight: 900;
+	margin-bottom: 16px;
+}
+
+.error {
+	color: red;
+	font-size: 14px;
+	margin-top: 8px;
+}
+
+.messageContainer {
+	flex: 1;
+	overflow-y: auto;
+	padding: 16px;
+	border-radius: 8px;
+}
+
+.speechBubble {
+	padding: 17px;
+	margin-bottom: 8px;
+	max-width: 320px;
+	border-radius: 30px;
+}
+
+.blurredAvatar {
+	filter: blur(5px);
+}
+
+.gradientCircleTopLeft {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background: linear-gradient(90deg, #de97ff 0%, #9649ff 100%);
+}
+
+.gradientCircleBottomRight {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background: linear-gradient(90deg, #9649ff 0%, #de97ff 100%);
+}

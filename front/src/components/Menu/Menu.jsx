@@ -26,8 +26,8 @@ const Menu = () => {
 				<Button img="/Icons/cupIcon.svg" title="Récompenses" />
 				<Button img="/Icons/instaIcon.svg" title="Suis-nous !" onClick={() => window.open("https://www.instagram.com", "_blank")} />
 				<Button img="/Icons/questionIcon.svg" title="Besoin d'aide ?" />
-				<Button img="/Icons/chatIcon.svg" title="Trouve-moi" />
-				<Button img="/Icons/chatIcon.svg" title="Parle-moi" />
+				<Button img="/Icons/chatIcon.svg" title="Trouve-moi" onClick={() => navigate("/guesschatbox")} />
+				<Button img="/Icons/chatIcon.svg" title="Parle-moi" onClick={() => navigate("/discusschatbox")} />
 			</div>
 			<div className={styles.menuItem} onClick={handleLogout}>
 				<LogoutIcon sx={{ margin: "3px" }} />

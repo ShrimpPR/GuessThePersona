@@ -21,7 +21,7 @@ function Home() {
 			const user = userData?.user;
 			if (user) {
 				// S'il y a un utilisateur connecté, on redirige vers /chatbox
-				navigate("/chatbox");
+				navigate("/guesschatbox");
 				return;
 			}
 		};
@@ -40,7 +40,7 @@ function Home() {
 				<img
 					src="/LogoNoName.png"
 					alt="Guess the persona Logo"
-					className="logo"
+					className="home-logo"
 				/>
 				<p className="title-text">GUESS THE PERSONA</p>
 				<p className="subtitle-text-one">

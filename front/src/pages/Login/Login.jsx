@@ -18,8 +18,8 @@ function Login() {
 				const { data: userData, error: userError } = await supabase.auth.getUser();
 				const user = userData?.user;
 				if (user) {
-					// S'il y a un utilisateur, on redirige vers /dashboard
-					navigate("/chatbox");
+					// S'il y a un utilisateur, on redirige vers /guesschatbox
+					navigate("/guesschatbox");
 					return;
 				}
 				if (userError) {
@@ -40,7 +40,7 @@ function Login() {
 		// Connexion de l'utilisateur
 		const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
 			email: email,
-			password: password,
+			password: password
 		});
 
 		if (signInError) {
@@ -57,7 +57,7 @@ function Login() {
 				// Vérifier si l'utilisateur a déjà un profil
 				const { data: profileData, error: profileError } = await supabase
 					.from("profiles")
-					.select("user_id") // Récupérer uniquement l'ID pour minimiser les données
+					.select("user_id")
 					.eq("user_id", userId)
 					.single();
 
@@ -72,9 +72,8 @@ function Login() {
 						.insert([
 							{
 								user_id: userId,
-								username: email.split("@")[0], // Exemple de pseudo par défaut
-								coins: 100, // Valeur initiale
-							},
+								username: email.split("@")[0]
+							}
 						]);
 
 					if (insertError) {
@@ -87,13 +86,13 @@ function Login() {
 				setMessage("Logged in, but failed to manage profile.");
 			}
 
-			// Redirection vers le tableau de bord après connexion
-			navigate("/chatbox");
+			// Redirection vers la guesschatbox après connexion
+			navigate("/guesschatbox");
 		}
 	};
 
 	return (
-		<div>
+		<div className="main-container">
 			<link
 				href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 				rel="stylesheet"
@@ -102,12 +101,12 @@ function Login() {
 				<img
 					src="/LogoNoName.png"
 					alt="Guess the persona Logo"
-					className="logo"
+					className="login-logo"
 				/>
 				<img
 					src="/NoLogo.png"
 					alt="Guess the persona"
-					className="title"
+					className="login-title"
 				/>
 			</div>
 			<br />
@@ -127,6 +126,17 @@ function Login() {
 							sx={{
 								background: "white",
 								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white'
+									},
+									'&:hover fieldset': {
+										borderColor: 'white'
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 						<TextField
@@ -140,16 +150,34 @@ function Login() {
 							sx={{
 								background: "white",
 								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white'
+									},
+									'&:hover fieldset': {
+										borderColor: 'white'
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 					</div>
 					<p className="forgottenpwd">Mot de passe oublié ?</p>
 					<div className="login-buttons">
-						<Button variant="outlined" type="submit" id="button">Connexion</Button>
+						<Button
+							className="login"
+							variant="outlined"
+							type="submit"
+							id="button"
+						>
+							Connexion
+						</Button>
 					</div>
 					<div className="login-gotoregister">
-						<span>Pour créer un compte :</span>
-						<Link className="linking" to="/register" id="register-txt">cliquez-ici</Link>
+						<span>Pas de compte ?</span>
+						<Link to="/register" id="register-txt">Inscription</Link>
 					</div>
 				</form>
 			</div>

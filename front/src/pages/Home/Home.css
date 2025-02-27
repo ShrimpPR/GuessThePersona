@@ -5,6 +5,16 @@ body {
 	font-family: 'Arial', sans-serif;
 	background: #171757;
 	color: #ffffff;
+	margin: 0;
+	padding: 0;
+}
+
+.page-container {
+	background: #171757;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .text-container {
@@ -17,14 +27,14 @@ body {
 	margin: auto;
 }
 
-.logo {
+.home-logo {
 	display: flex;
 	text-align: center;
 	justify-content: center;
 	align-items: center;
-	height: 10%;
-	margin-top: 100px;
-	margin-bottom: 100px;
+	height: 30%;
+	width: auto;
+	margin-bottom: 10em;
 }
 
 .title-text {

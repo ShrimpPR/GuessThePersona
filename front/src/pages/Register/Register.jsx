@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import supabase from "../../helper/supabaseClient";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,8 +25,8 @@ function Register() {
 
 			const user = userData?.user;
 			if (user) {
-				// S'il y a un utilisateur, on redirige vers /dashboard
-				navigate("/dashboard");
+				// S'il y a un utilisateur, on redirige vers /guesschatbox
+				navigate("/guesschatbox");
 				return;
 			}
 		};
@@ -44,7 +45,7 @@ function Register() {
 
 		const { data, error } = await supabase.auth.signUp({
 			email: email,
-			password: password,
+			password: password
 		});
 
 		if (error) {
@@ -62,9 +63,26 @@ function Register() {
 	};
 
 	return (
-		<div>
+		<div className="main-container">
+			<link
+				href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+				rel="stylesheet"
+			/>
+			<div className="container">
+				<img
+					src="/LogoNoName.png"
+					alt="Guess the persona Logo"
+					className="login-logo"
+				/>
+				<img
+					src="/NoLogo.png"
+					alt="Guess the persona"
+					className="login-title"
+				/>
+			</div>
 			<br />
 			<div className="account-box">
+				<h2>Création de compte</h2>
 				<form onSubmit={handleSubmit}>
 
 					<div className="account-entries">
@@ -77,6 +95,21 @@ function Register() {
 							variant="outlined"
 							type="email"
 							required
+							sx={{
+								background: "white",
+								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white'
+									},
+									'&:hover fieldset': {
+										borderColor: 'white'
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white'
+									}
+								}
+							}}
 						/>
 
 						<TextField
@@ -87,6 +120,21 @@ function Register() {
 							type="password"
 							autoComplete="current-password"
 							required
+							sx={{
+								background: "white",
+								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white'
+									},
+									'&:hover fieldset': {
+										borderColor: 'white'
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white'
+									}
+								}
+							}}
 						/>
 
 						<TextField
@@ -97,6 +145,21 @@ function Register() {
 							type="password"
 							autoComplete="current-password"
 							required
+							sx={{
+								background: "white",
+								borderRadius: "5px",
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: 'white'
+									},
+									'&:hover fieldset': {
+										borderColor: 'white'
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'white'
+									}
+								}
+							}}
 						/>
 
 					</div>
@@ -106,11 +169,17 @@ function Register() {
 					</div>
 
 					<div className="account-buttons">
-						<Button variant="outlined" type="submit" id="button">Register</Button>
+						<Button
+							variant="outlined"
+							type="submit"
+							id="button"
+						>
+							S'inscrire
+						</Button>
 					</div>
 					<div className="account-gotoregister">
-						<span>Already have an account ?</span>
-						<Link to="/login" id="login-txt">Login</Link>
+						<span>Déjà un compte ?</span>
+						<Link to="/login" id="login-txt">Connexion</Link>
 
 					</div>
 				</form>
