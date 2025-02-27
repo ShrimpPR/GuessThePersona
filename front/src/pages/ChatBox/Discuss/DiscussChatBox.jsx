@@ -14,6 +14,7 @@ const DiscussChatBox = () => {
 	const [isTyping, setIsTyping] = useState(false);
 	const [typingDots, setTypingDots] = useState("Typing");
 	const [isBlurred, setIsBlurred] = useState(true);
+	const [memory, setMemory] = useState(null);
 
 	useEffect(() => {
 		if (!isTyping) return;
@@ -26,6 +27,65 @@ const DiscussChatBox = () => {
 
 		return () => clearInterval(interval);
 	}, [isTyping]);
+
+	const fetchMemory = async () => {
+		try {
+		  const { data: userData, error: userError } = await supabase.auth.getUser();
+		  if (userError) {
+			  console.error("Erreur récupération utilisateur :", userError.message);
+			  return;
+		  }
+
+		  const user = userData?.user;
+		  if (!user) {
+			  navigate("/login");
+			  return;
+		  }
+		  const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getmemory`, {
+			method: "POST",
+			headers: {
+			  "x-api-key": "testapikey",
+			  "x-user-id": user.id,
+			},
+			body: JSON.stringify({ model: "guess" }),
+		  });
+
+		  if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		  }
+		  console.log(userData?.user?.id);
+
+		  const data = await response.json();
+		  return data;
+		} catch (error) {
+		  console.error("Error fetching memory:", error);
+		  return null;
+		}
+	  };
+
+	  useEffect(() => {
+		fetchMemory().then((data) => {
+		  if (data && data.response) {
+			console.log("Memory fetched:", data.response);
+
+			const responseArray = Array.isArray(data.response) ? data.response : [data.response];
+
+			const parsedMessages = responseArray.flatMap((entry) =>
+			  entry.split("\n").map((line) => {
+				if (line.startsWith("user:")) {
+				  return { sender: "user", text: line.replace("user: ", "") };
+				} else if (line.startsWith("ollama:")) {
+				  return { sender: "ollama", text: line.replace("ollama: ", "") };
+				}
+				return null;
+			  }).filter(Boolean)
+			);
+
+			setMemory(data);
+			setMessages(parsedMessages);
+		  }
+		});
+	  }, []);
 
 	const fetchUserData = async () => {
 		const { data } = await supabase.auth.getUser();
