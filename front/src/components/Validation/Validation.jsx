@@ -29,7 +29,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				}
 			} catch (error) {
 				console.error("Error fetching image:", error);
-				setImageUrl("https://picsum.photos/seed/picsum/450/450");
+				setImageUrl("https://st3.depositphotos.com/8440746/32989/v/450/depositphotos_329897202-stock-illustration-support-icon-vector-question-mark.jpg");
 			}
 		};
 
@@ -74,31 +74,31 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 		fetchImage();
 	}, []);
 
-  return (
-    <div className={styles.validationContainer}>
-      <img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
-      <img
-        src={imageUrl}
-        alt="Fetched validation"
-        className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
-      />
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-      <input
-          className={styles.validationField}
-          value={validationInput}
-          onChange={(e) => setValidationInput(e.target.value)}
-          placeholder="Trouve son nom !"
-          onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
-        />
-        <button
-          className={styles.validationButton}
-          onClick={() => handleRequest({ type: "validate" })}
-        >
-          <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
-        </button>
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.validationContainer}>
+			<img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
+			<img
+				src={imageUrl}
+				alt="Fetched validation"
+				className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
+			/>
+			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+				<input
+					className={styles.validationField}
+					value={validationInput}
+					onChange={(e) => setValidationInput(e.target.value)}
+					placeholder="Trouve son nom !"
+					onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
+				/>
+				<button
+					className={styles.validationButton}
+					onClick={() => handleRequest({ type: "validate" })}
+				>
+					<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
+				</button>
+			</div>
+		</div>
+	);
 };
 
 export default Validation;
