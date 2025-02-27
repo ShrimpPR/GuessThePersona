@@ -4,7 +4,7 @@ import GuessChatBox from "./pages/ChatBox/Guess/GuessChatBox";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import Loose from "./pages/Loose/Loose";
+import Lose from "./pages/Lose/Lose";
 
 function App() {
 	return (
@@ -25,8 +25,8 @@ function App() {
 				{/* discusschatbox */}
 				<Route path="/discusschatbox" element={<DiscussChatBox />} />
 
-				{/* loose */}
-				<Route path="/loose" element={<Loose />} />
+				{/* lose */}
+				<Route path="/lose" element={<Lose />} />
 
 				{/* win */}
 				<Route path="/win" />
