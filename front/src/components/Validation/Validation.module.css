@@ -1,5 +1,6 @@
 .validationContainer {
-    position: absolute;
+    position: relative;
+    margin-left: 20vw;
     top: 10rem;
     right: 5rem;
     display: flex;
@@ -53,4 +54,16 @@
   .blurred {
     filter: blur(30px);
     transition: filter 0.3s ease-in-out;
+  }
+  
+  @media (max-width: 1024px) {
+    .validationContainer {
+      margin-left: 0;
+      right: 0;
+      width: 100%;
+    }
+
+    .validationCircle {
+      width: 25rem;
+    }
   }

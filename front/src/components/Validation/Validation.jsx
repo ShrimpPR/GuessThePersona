@@ -28,7 +28,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
         }
       } catch (error) {
         console.error("Error fetching image:", error);
-        setImageUrl("https://picsum.photos/seed/picsum/450/450");
+        processImage("https://picsum.photos/seed/picsum/450/450");
       }
     };
 
@@ -38,35 +38,35 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
       img.src = url;
 
       img.onload = () => {
-        let { naturalWidth: width, naturalHeight: height } = img;
-        const targetSize = 450;
+      let { naturalWidth: width, naturalHeight: height } = img;
+      const targetSize = window.innerWidth < 1024 ? 340 : 450;
 
-        const size = Math.min(width, height);
-        const canvas = document.createElement("canvas");
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext("2d");
+      const size = Math.min(width, height);
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
 
-        ctx.drawImage(img, 0, height - size, size, size, 0, 0, size, size);
+      ctx.drawImage(img, 0, height - size, size, size, 0, 0, size, size);
 
-        if (size < targetSize) {
-          const scaledCanvas = document.createElement("canvas");
-          scaledCanvas.width = targetSize;
-          scaledCanvas.height = targetSize;
-          const scaledCtx = scaledCanvas.getContext("2d");
+      if (size < targetSize) {
+        const scaledCanvas = document.createElement("canvas");
+        scaledCanvas.width = targetSize;
+        scaledCanvas.height = targetSize;
+        const scaledCtx = scaledCanvas.getContext("2d");
 
-          scaledCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
+        scaledCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
 
-          scaledCanvas.toBlob((blob) => {
-            const resizedUrl = URL.createObjectURL(blob);
-            setImageUrl(resizedUrl);
-          }, "image/jpeg");
-        } else {
-          canvas.toBlob((blob) => {
-            const croppedUrl = URL.createObjectURL(blob);
-            setImageUrl(croppedUrl);
-          }, "image/jpeg");
-        }
+        scaledCanvas.toBlob((blob) => {
+        const resizedUrl = URL.createObjectURL(blob);
+        setImageUrl(resizedUrl);
+        }, "image/jpeg");
+      } else {
+        canvas.toBlob((blob) => {
+        const croppedUrl = URL.createObjectURL(blob);
+        setImageUrl(croppedUrl);
+        }, "image/jpeg");
+      }
       };
     };
 
