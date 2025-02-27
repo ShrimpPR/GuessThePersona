@@ -12,16 +12,9 @@ function Home() {
 	useEffect(() => {
 		const fetchUser = async () => {
 			// Récupérer l'utilisateur via la nouvelle méthode getUser()
-			const { data: userData, error: userError } = await supabase.auth.getUser();
+			const { error: userError } = await supabase.auth.getUser();
 			if (userError) {
 				console.error("Erreur récupération utilisateur :", userError.message);
-				return;
-			}
-
-			const user = userData?.user;
-			if (user) {
-				// S'il y a un utilisateur connecté, on redirige vers /chatbox
-				navigate("/guesschatbox");
 				return;
 			}
 		};
