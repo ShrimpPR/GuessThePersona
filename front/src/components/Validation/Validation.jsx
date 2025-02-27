@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import styles from "./Validation.module.css";
+import supabase from "../../helper/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
-const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred }) => {
-	const [imageUrl, setImageUrl] = useState("");
+const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed }) => {
+  const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchImage = async () => {
@@ -39,66 +42,130 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 			img.src = url;
 
       img.onload = () => {
-      let { naturalWidth: width, naturalHeight: height } = img;
-      const targetSize = window.innerWidth < 1024 ? 340 : 450;
+        let { naturalWidth: width, naturalHeight: height } = img;
+        const targetSize = window.innerWidth < 1024 ? 340 : 450;
 
-      const size = Math.min(width, height);
-      const canvas = document.createElement("canvas");
-      canvas.width = size;
-      canvas.height = size;
-      const ctx = canvas.getContext("2d");
+        const size = Math.min(width, height);
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
 
-      ctx.drawImage(img, 0, height - size, size, size, 0, 0, size, size);
+        const offsetX = (width - size) / 2;
+        const offsetY = (height - size) / 2;
+        ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
 
-      if (size < targetSize) {
-        const scaledCanvas = document.createElement("canvas");
-        scaledCanvas.width = targetSize;
-        scaledCanvas.height = targetSize;
-        const scaledCtx = scaledCanvas.getContext("2d");
+        const finalCanvas = document.createElement("canvas");
+        finalCanvas.width = targetSize;
+        finalCanvas.height = targetSize;
+        const finalCtx = finalCanvas.getContext("2d");
 
-        scaledCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
+        finalCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
 
-        scaledCanvas.toBlob((blob) => {
-        const resizedUrl = URL.createObjectURL(blob);
-        setImageUrl(resizedUrl);
+        finalCanvas.toBlob((blob) => {
+          const finalUrl = URL.createObjectURL(blob);
+          setImageUrl(finalUrl);
         }, "image/jpeg");
-      } else {
-        canvas.toBlob((blob) => {
-        const croppedUrl = URL.createObjectURL(blob);
-        setImageUrl(croppedUrl);
-        }, "image/jpeg");
-      }
       };
     };
 
-		fetchImage();
-	}, []);
+    const checkGuessed = async () => {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) {
+        console.error("Erreur récupération utilisateur :", userError.message);
+        return;
+      }
 
-	return (
-		<div className={styles.validationContainer}>
-			<img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
-			<img
-				src={imageUrl}
-				alt="Fetched validation"
-				className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
-			/>
-			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-				<input
-					className={styles.validationField}
-					value={validationInput}
-					onChange={(e) => setValidationInput(e.target.value)}
-					placeholder="Trouve son nom !"
-					onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
-				/>
-				<button
-					className={styles.validationButton}
-					onClick={() => handleRequest({ type: "validate" })}
-				>
-					<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
-				</button>
-			</div>
-		</div>
-	);
+      const { data, error } = await supabase
+      .from("profiles")
+      .select("is_guessed")
+      .eq("user_id", userData.user.id);
+
+      if (error) {
+      console.error("Erreur récupération du profil :", error.message);
+      return;
+      }
+      if (data && data.length > 0 && data[0].is_guessed) {
+        setIsBlurred(false);
+      }
+    }
+
+    fetchImage();
+    checkGuessed();
+  }, []);
+
+  const decrementGuesses = async () => {
+		if (guesses <= 0) {
+			console.log("Aucune Guesses disponible.");
+			return;
+		}
+
+		const newGuessesCount = guesses - 1;
+
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) {
+			console.error("Erreur récupération utilisateur :", userError.message);
+			return;
+		}
+
+		const user = userData?.user;
+		if (!user) {
+			navigate("/login");
+			return;
+		}
+
+		const { error } = await supabase
+			.from("profiles")
+			.update({ guesses: newGuessesCount })
+			.eq("user_id", user.id);
+
+		if (error) {
+			console.error("Erreur en mettant à jour les guesses :", error.message);
+			return;
+		}
+
+		setGuesses(newGuessesCount);
+		console.log("Guesses mises à jour avec succès !");
+	};
+
+  const handleSubmitGuess = () => {
+    if (guesses <= 0) return;
+
+    decrementGuesses();
+
+    handleRequest({ type: "validate" });
+  };
+
+  return (
+    <div className={styles.validationContainer}>
+      <img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
+      <img
+        src={imageUrl}
+        alt="Fetched validation"
+        className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
+      />
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <input
+          className={styles.validationField}
+          value={validationInput}
+          onChange={(e) => setValidationInput(e.target.value)}
+          placeholder="Trouve son nom !"
+          onKeyUp={(e) => e.key === "Enter" && handleSubmitGuess()}
+          disabled={guesses <= 0}
+        />
+        <button
+          className={styles.validationButton}
+          onClick={handleSubmitGuess}
+          disabled={guesses <= 0}
+        >
+          <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
+        </button>
+      </div>
+        <div className={styles.validationTries}>
+          Vous avez encore {guesses} essais.
+        </div>
+    </div>
+  );
 };
 
 export default Validation;

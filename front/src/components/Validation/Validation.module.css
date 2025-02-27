@@ -35,7 +35,7 @@
   }
   
   .validationImage {
-    margin-bottom: 4rem;
+    margin: 2rem 0 4rem 0;
     border-radius: 50%;
     object-fit: cover;
     position: relative;
@@ -50,12 +50,12 @@
     transform: translate(-50%, -50%);
     z-index: 2;
   }
-  
+
   .blurred {
     filter: blur(30px);
     transition: filter 0.3s ease-in-out;
   }
-  
+
   @media (max-width: 1024px) {
     .validationContainer {
       margin-left: 0;
@@ -66,4 +66,14 @@
     .validationCircle {
       width: 25rem;
     }
+  }
+
+  .validationTries {
+    display: flex;
+    padding: .4rem 0;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    white-space: nowrap;
   }

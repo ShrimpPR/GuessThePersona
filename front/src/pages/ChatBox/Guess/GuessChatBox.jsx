@@ -15,9 +15,11 @@ const GuessChatBox = () => {
 	const [typingDots, setTypingDots] = useState("Typing");
 	const [isBlurred, setIsBlurred] = useState(true);
 	const [questions, setQuestions] = useState(0);
+	const [guesses, setGuesses] = useState(0);
 	const [memory, setMemory] = useState(null);
 	const [showMenu, setShowMenu] = useState(false);
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+	const [isGuessed, setIsGuessed] = useState(false);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -104,6 +106,33 @@ const GuessChatBox = () => {
 		});
 	  }, []);
 
+	const guessedToday = async () => {
+		const { data: userData, error: userError } = await supabase.auth.getUser();
+		if (userError) {
+			console.error("Erreur récupération utilisateur :", userError.message);
+			return;
+		}
+
+		const user = userData?.user;
+		if (!user) {
+			navigate("/login");
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from("profiles")
+			.update({ is_guessed: true })
+			.eq("user_id", user.id);
+
+		if (error) {
+			console.error("Error fetching user data:", error);
+			return null;
+		}
+		setIsGuessed(true);
+
+		return data.is_guessed;
+	}
+
 	const decrementQuestions = async () => {
 		if (questions <= 0) {
 			console.log("Aucune question disponible.");
@@ -169,6 +198,7 @@ const GuessChatBox = () => {
 		fetchUserData().then((data) => {
 			if (data) {
 				setQuestions(data.questions);
+				setGuesses(data.guesses);
 			}
 		});
 	}, [fetchUserData]);
@@ -200,6 +230,9 @@ const GuessChatBox = () => {
 					<p style={{ color: "#de97ff" }}>
 						QUI JE SUIS
 					</p>
+				</div>
+				<div className={styles.GuessChatBoxTries}>
+					<p>Essais restants : {questions}</p>
 				</div>
 				<div className={styles.messagesContainer}>
 					{messages.map((msg, index) => (
@@ -233,8 +266,12 @@ const GuessChatBox = () => {
 				<Validation
 					validationInput={validationInput}
 					setValidationInput={setValidationInput}
-					handleRequest={(data) => handleRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
+					handleRequest={(data) => handleRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred, guessedToday })}
 					isBlurred={isBlurred}
+					setIsBlurred={setIsBlurred}
+					guesses={guesses}
+					setGuesses={setGuesses}
+					isGuessed={isGuessed}
 				/>
 			</div>
 		</div>

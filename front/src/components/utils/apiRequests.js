@@ -8,7 +8,8 @@ export const handleRequest = async ({
 	setInput,
 	setValidationInput,
 	setIsTyping,
-	setIsBlurred
+	setIsBlurred,
+	guessedToday,
 }) => {
 	const inputText = type === "message" ? input : validationInput;
 	if (!inputText.trim()) return;
@@ -54,6 +55,7 @@ export const handleRequest = async ({
 		} else if (type === "validate") {
 			if (data.response === "Correct") {
 				setIsBlurred(false);
+				guessedToday();
 			}
 		}
 	} catch (error) {
