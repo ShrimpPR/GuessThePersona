@@ -1,0 +1,56 @@
+.validationContainer {
+	position: absolute;
+	top: 10rem;
+	right: 5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 30%;
+	min-width: 20%;
+}
+
+.validationField {
+	position: relative;
+	flex: 1;
+	padding: 8px;
+	color: #5c5c5c;
+	font-weight: 700;
+	background-color: #fff;
+	border-radius: 30px;
+	height: 4rem;
+}
+
+.validationButton {
+	position: relative;
+	margin-left: 8px;
+	color: #fff;
+	background-color: #de97ff;
+	padding: 8px;
+	width: 4rem;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.validationImage {
+	margin-bottom: 4rem;
+	border-radius: 50%;
+	object-fit: cover;
+	position: relative;
+	z-index: 1;
+}
+
+.validationCircle {
+	position: absolute;
+	width: 33rem;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+
+.blurred {
+	filter: blur(30px);
+	transition: filter 0.3s ease-in-out;
+}

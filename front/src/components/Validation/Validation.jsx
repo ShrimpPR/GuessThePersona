@@ -1,41 +1,42 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import styles from "./Validation.module.css";
 
 const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred }) => {
-  const [imageUrl, setImageUrl] = useState("");
+	const [imageUrl, setImageUrl] = useState("");
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getimage`, {
-          method: "GET",
-          headers: {
-            "x-api-key": "testapikey",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        });
+	useEffect(() => {
+		const fetchImage = async () => {
+			try {
+				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getimage`, {
+					method: "GET",
+					headers: {
+						"x-api-key": "testapikey",
+						"ngrok-skip-browser-warning": "69420",
+					},
+				});
 
-        const text = await response.text();
-        console.log("Raw response text:", text);
+				const text = await response.text();
+				console.log("Raw response text:", text);
 
-        const data = JSON.parse(text);
-        console.log("Image data:", data);
+				const data = JSON.parse(text);
+				console.log("Image data:", data);
 
-        if (data.url) {
-          processImage(data.url);
-        } else {
-          throw new Error("Invalid image URL");
-        }
-      } catch (error) {
-        console.error("Error fetching image:", error);
-        processImage("https://picsum.photos/seed/picsum/450/450");
-      }
-    };
+				if (data.url) {
+					processImage(data.url);
+				} else {
+					throw new Error("Invalid image URL");
+				}
+			} catch (error) {
+				console.error("Error fetching image:", error);
+				setImageUrl("https://st3.depositphotos.com/8440746/32989/v/450/depositphotos_329897202-stock-illustration-support-icon-vector-question-mark.jpg");
+			}
+		};
 
-    const processImage = (url) => {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.src = url;
+		const processImage = (url) => {
+			const img = new Image();
+			img.crossOrigin = "anonymous";
+			img.src = url;
 
       img.onload = () => {
       let { naturalWidth: width, naturalHeight: height } = img;
@@ -70,34 +71,34 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
       };
     };
 
-    fetchImage();
-  }, []);
+		fetchImage();
+	}, []);
 
-  return (
-    <div className={styles.validationContainer}>
-      <img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
-      <img
-        src={imageUrl}
-        alt="Fetched validation"
-        className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
-      />
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-      <input
-          className={styles.validationField}
-          value={validationInput}
-          onChange={(e) => setValidationInput(e.target.value)}
-          placeholder="Trouve son nom !"
-          onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
-        />
-        <button
-          className={styles.validationButton}
-          onClick={() => handleRequest({ type: "validate" })}
-        >
-          <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
-        </button>
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.validationContainer}>
+			<img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
+			<img
+				src={imageUrl}
+				alt="Fetched validation"
+				className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
+			/>
+			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+				<input
+					className={styles.validationField}
+					value={validationInput}
+					onChange={(e) => setValidationInput(e.target.value)}
+					placeholder="Trouve son nom !"
+					onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
+				/>
+				<button
+					className={styles.validationButton}
+					onClick={() => handleRequest({ type: "validate" })}
+				>
+					<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
+				</button>
+			</div>
+		</div>
+	);
 };
 
 export default Validation;
