@@ -15,6 +15,22 @@ const DiscussChatBox = () => {
 	const [typingDots, setTypingDots] = useState("Typing");
 	const [isBlurred, setIsBlurred] = useState(true);
 	const [memory, setMemory] = useState(null);
+	const [showMenu, setShowMenu] = useState(false);
+	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 1024);
+			if (window.innerWidth >= 1024) setShowMenu(false);
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	const toggleMenu = () => {
+		setShowMenu((prev) => !prev);
+	};
 
 	useEffect(() => {
 		if (!isTyping) return;
@@ -129,7 +145,12 @@ const DiscussChatBox = () => {
 
 	return (
 		<div className={styles.DiscussContainer}>
-			<Menu handleRedirect={handleRedirect} />
+			{isMobile && (
+				<button className={styles.menuToggleButton} onClick={toggleMenu}>
+					{showMenu ? "Close Menu" : "Open Menu"}
+				</button>
+			)}
+			{(!isMobile || showMenu) && <Menu handleRedirect={handleRedirect} />}
 
 			<div className={styles.DiscussChatContainer}>
 				<div className={styles.DiscussChatBoxTitle}>

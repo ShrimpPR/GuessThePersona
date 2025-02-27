@@ -1,11 +1,10 @@
 body {
 	box-sizing: border-box;
 	font-family: 'Montserrar', sans-serif;
-	background: linear-gradient(to right, #9b9796, #8f7272);
 }
 
 .main-container {
-	background: #171757;
+	background: #030330;
 }
 
 .container {
@@ -43,7 +42,7 @@ h2 {
 	padding: 20px;
 	background-color: #a265be97;
 	border-radius: 20px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 	text-align: center;
 }
 

@@ -13,6 +13,41 @@
 	padding: 16px;
 }
 
+.menuToggleButton {
+	background-color: #de97ff;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 8px;
+	font-weight: bold;
+	cursor: pointer;
+	z-index: 1001;
+}
+
+.ValidationComponent {
+	margin-left: 16px;
+}
+
+@media (max-width: 1024px) {
+	.DiscussContainer {
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 16px;
+	}
+
+	.DiscussChatContainer {
+		width: 100%;
+		max-width: 600px;
+	}
+
+	.ValidationComponent {
+		margin-left: 0;
+		margin-top: 16px;
+		width: 100%;
+	}
+}
+
 .messagesContainer {
 	flex: 1;
 	overflow-y: auto;

@@ -1,11 +1,10 @@
 body {
 	box-sizing: border-box;
 	font-family: 'Arial', sans-serif;
-	background: linear-gradient(to right, #9b9796, #8f7272);
 }
 
 .main-container {
-	background: #171757;
+	background: #030330;
 }
 
 .account-box {

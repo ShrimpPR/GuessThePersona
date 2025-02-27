@@ -16,6 +16,22 @@ const GuessChatBox = () => {
 	const [isBlurred, setIsBlurred] = useState(true);
 	const [questions, setQuestions] = useState(0);
 	const [memory, setMemory] = useState(null);
+	const [showMenu, setShowMenu] = useState(false);
+	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 1024);
+			if (window.innerWidth >= 1024) setShowMenu(false);
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	const toggleMenu = () => {
+		setShowMenu((prev) => !prev);
+	};
 
 	useEffect(() => {
 		if (!isTyping) return;
@@ -171,7 +187,12 @@ const GuessChatBox = () => {
 
 	return (
 		<div className={styles.GuessContainer}>
-			<Menu handleRedirect={handleRedirect} />
+			{isMobile && (
+				<button className={styles.menuToggleButton} onClick={toggleMenu}>
+					{showMenu ? "Close Menu" : "Open Menu"}
+				</button>
+			)}
+			{(!isMobile || showMenu) && <Menu handleRedirect={handleRedirect} />}
 
 			<div className={styles.GuessChatContainer}>
 				<div className={styles.GuessChatBoxTitle}>
@@ -208,12 +229,14 @@ const GuessChatBox = () => {
 				</div>
 			</div>
 
-			<Validation
-				validationInput={validationInput}
-				setValidationInput={setValidationInput}
-				handleRequest={(data) => handleRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
-				isBlurred={isBlurred}
-			/>
+			<div className="ValidationComponent">
+				<Validation
+					validationInput={validationInput}
+					setValidationInput={setValidationInput}
+					handleRequest={(data) => handleRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
+					isBlurred={isBlurred}
+				/>
+			</div>
 		</div>
 	);
 };
