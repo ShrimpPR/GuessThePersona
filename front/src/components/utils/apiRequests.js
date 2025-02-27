@@ -165,7 +165,6 @@ const handleNameRequest = async ({
 	setInput("");
 
 	const { data: userData, error: userError } = await supabase.auth.getUser();
-
 	if (userError) {
 		console.error("Error fetching user:", userError.message);
 		return;

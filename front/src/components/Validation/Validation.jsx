@@ -3,14 +3,17 @@ import { useState, useEffect } from "react";
 import styles from "./Validation.module.css";
 import supabase from "../../helper/supabaseClient";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed }) => {
-  const [imageUrl, setImageUrl] = useState("");
-  const navigate = useNavigate();
+	const [imageUrl, setImageUrl] = useState("");
+	const [loading, setLoading] = useState(true);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchImage = async () => {
 			try {
+				setLoading(true);
 				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getimage`, {
 					method: "GET",
 					headers: {
@@ -27,6 +30,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 
 				if (data.url) {
 					processImage(data.url);
+					setLoading(false);
 				} else {
 					throw new Error("Invalid image URL");
 				}
@@ -41,67 +45,66 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 			img.crossOrigin = "anonymous";
 			img.src = url;
 
-      img.onload = () => {
-        let { naturalWidth: width, naturalHeight: height } = img;
-        const targetSize = window.innerWidth < 1024 ? 340 : 450;
+			img.onload = () => {
+				let { naturalWidth: width, naturalHeight: height } = img;
+				const targetSize = window.innerWidth < 1024 ? 340 : 450;
 
-        const size = Math.min(width, height);
-        const canvas = document.createElement("canvas");
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext("2d");
+				const size = Math.min(width, height);
+				const canvas = document.createElement("canvas");
+				canvas.width = size;
+				canvas.height = size;
+				const ctx = canvas.getContext("2d");
 
-        const offsetX = (width - size) / 2;
-        const offsetY = (height - size) / 2;
-        ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
+				const offsetX = (width - size) / 2;
+				const offsetY = (height - size) / 2;
+				ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
 
-        const finalCanvas = document.createElement("canvas");
-        finalCanvas.width = targetSize;
-        finalCanvas.height = targetSize;
-        const finalCtx = finalCanvas.getContext("2d");
+				const finalCanvas = document.createElement("canvas");
+				finalCanvas.width = targetSize;
+				finalCanvas.height = targetSize;
+				const finalCtx = finalCanvas.getContext("2d");
 
-        finalCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
+				finalCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
 
-        finalCanvas.toBlob((blob) => {
-          const finalUrl = URL.createObjectURL(blob);
-          setImageUrl(finalUrl);
-        }, "image/jpeg");
-      };
-    };
+				finalCanvas.toBlob((blob) => {
+					const finalUrl = URL.createObjectURL(blob);
+					setImageUrl(finalUrl);
+				}, "image/jpeg");
+			};
+		};
 
-    const checkGuessed = async () => {
-      const { data: userData, error: userError } = await supabase.auth.getUser();
-      if (userError) {
-        console.error("Erreur récupération utilisateur :", userError.message);
-        return;
-      }
+		const checkGuessed = async () => {
+			const { data: userData, error: userError } = await supabase.auth.getUser();
+			if (userError) {
+				console.error("Erreur récupération utilisateur :", userError.message);
+				return;
+			}
 
-      const { data, error } = await supabase
-      .from("profiles")
-      .select("is_guessed")
-      .eq("user_id", userData.user.id);
+			const { data, error } = await supabase
+				.from("profiles")
+				.select("is_guessed")
+				.eq("user_id", userData.user.id);
 
-      if (error) {
-      console.error("Erreur récupération du profil :", error.message);
-      return;
-      }
-      if (data && data.length > 0 && data[0].is_guessed) {
-        setIsBlurred(false);
-      }
-    }
+			if (error) {
+				console.error("Erreur récupération du profil :", error.message);
+				return;
+			}
+			if (data && data.length > 0 && data[0].is_guessed) {
+				setIsBlurred(false);
+			}
+		}
 
-    fetchImage();
-    checkGuessed();
-  }, []);
+		fetchImage();
+		checkGuessed();
+	}, []);
 
-  const decrementGuesses = async () => {
+	const decrementGuesses = async () => {
 		if (guesses <= 0) {
 			console.log("Aucune Guesses disponible.");
 			return;
 		}
 
 		const newGuessesCount = guesses - 1;
-
 		const { data: userData, error: userError } = await supabase.auth.getUser();
 		if (userError) {
 			console.error("Erreur récupération utilisateur :", userError.message);
@@ -128,44 +131,54 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 		console.log("Guesses mises à jour avec succès !");
 	};
 
-  const handleSubmitGuess = () => {
-    if (guesses <= 0) return;
+	const handleSubmitGuess = () => {
+		if (guesses <= 0) return;
+		decrementGuesses();
+		handleRequest({ type: "validate" });
+	};
 
-    decrementGuesses();
-
-    handleRequest({ type: "validate" });
-  };
-
-  return (
-    <div className={styles.validationContainer}>
-      <img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
-      <img
-        src={imageUrl}
-        alt="Fetched validation"
-        className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
-      />
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <input
-          className={styles.validationField}
-          value={validationInput}
-          onChange={(e) => setValidationInput(e.target.value)}
-          placeholder="Trouve son nom !"
-          onKeyUp={(e) => e.key === "Enter" && handleSubmitGuess()}
-          disabled={guesses <= 0}
-        />
-        <button
-          className={styles.validationButton}
-          onClick={handleSubmitGuess}
-          disabled={guesses <= 0}
-        >
-          <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
-        </button>
-      </div>
-        <div className={styles.validationTries}>
-          Vous avez encore {guesses} essais.
-        </div>
-    </div>
-  );
+	return (
+		<div className={styles.validationContainer}>
+			{
+				loading ? (
+					<CircularProgress />
+				) : (
+					<>
+						<img
+							src="/circleBlur.svg"
+							alt="frame"
+							className={styles.validationCircle}
+						/>
+						<img
+							src={imageUrl}
+							alt="Fetched validation"
+							className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
+						/>
+					</>
+				)
+			}
+			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+				<input
+					className={styles.validationField}
+					value={validationInput}
+					onChange={(e) => setValidationInput(e.target.value)}
+					placeholder="Trouve son nom !"
+					onKeyUp={(e) => e.key === "Enter" && handleSubmitGuess()}
+					disabled={guesses <= 0}
+				/>
+				<button
+					className={styles.validationButton}
+					onClick={handleSubmitGuess}
+					disabled={guesses <= 0}
+				>
+					<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
+				</button>
+			</div>
+			<div className={styles.validationTries}>
+				Vous avez encore {guesses} essais.
+			</div>
+		</div>
+	);
 };
 
 export default Validation;

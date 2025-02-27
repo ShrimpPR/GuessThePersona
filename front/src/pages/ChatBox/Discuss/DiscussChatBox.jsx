@@ -13,7 +13,6 @@ const DiscussChatBox = () => {
 	const [validationInput, setValidationInput] = useState("");
 	const [isTyping, setIsTyping] = useState(false);
 	const [typingDots, setTypingDots] = useState("Typing");
-	const [isBlurred, setIsBlurred] = useState(true);
 	const [memory, setMemory] = useState(null);
 	const [showMenu, setShowMenu] = useState(false);
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -57,7 +56,6 @@ const DiscussChatBox = () => {
 				navigate("/login");
 				return;
 			}
-			// TODO: update get memory endpoint
 			const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getpersomemory`, {
 				method: "POST",
 				headers: {
@@ -136,7 +134,7 @@ const DiscussChatBox = () => {
 	});
 
 	const handleSubmitQuestion = () => {
-		handleDiscussRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred });
+		handleDiscussRequest({ type: "message", input, validationInput, setMessages, setInput, setValidationInput, setIsTyping });
 	};
 
 	const handleRedirect = (url) => {
@@ -189,8 +187,7 @@ const DiscussChatBox = () => {
 			<MakeModel
 				validationInput={validationInput}
 				setValidationInput={setValidationInput}
-				handleDiscussRequest={(data) => handleDiscussRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred })}
-				isBlurred={isBlurred}
+				handleDiscussRequest={(data) => handleDiscussRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping })}
 			/>
 		</div>
 	);
