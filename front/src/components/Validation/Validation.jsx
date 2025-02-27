@@ -7,14 +7,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 // import Win from "../../pages/Win/Win";
 
 const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed, showWinPopup, setShowWinPopup }) => {
-  const [imageUrl, setImageUrl] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+	const [imageUrl, setImageUrl] = useState("");
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchImage = async () => {
+			setLoading(true);
 			try {
-				setLoading(true);
 				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getimage`, {
 					method: "GET",
 					headers: {
@@ -38,6 +38,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 			} catch (error) {
 				console.error("Error fetching image:", error);
 				setImageUrl("https://st3.depositphotos.com/8440746/32989/v/450/depositphotos_329897202-stock-illustration-support-icon-vector-question-mark.jpg");
+				setLoading(false);
 			}
 		};
 
@@ -86,15 +87,15 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				.select("is_guessed")
 				.eq("user_id", userData.user.id);
 
-      if (error) {
-      console.error("Erreur récupération du profil :", error.message);
-      return;
-      }
-      if (data && data.length > 0 && data[0].is_guessed) {
-        setIsBlurred(false);
-        setShowWinPopup(true);
-      }
-    }
+			if (error) {
+				console.error("Erreur récupération du profil :", error.message);
+				return;
+			}
+			if (data && data.length > 0 && data[0].is_guessed) {
+				setIsBlurred(false);
+				setShowWinPopup(true);
+			}
+		}
 
 		fetchImage();
 		checkGuessed();
