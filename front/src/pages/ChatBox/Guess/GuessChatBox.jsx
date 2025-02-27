@@ -174,7 +174,7 @@ const GuessChatBox = () => {
 			<Menu handleRedirect={handleRedirect} />
 
 			<div className={styles.GuessChatContainer}>
-				<div className={styles.GuesschatBoxTitle}>
+				<div className={styles.GuessChatBoxTitle}>
 					DEVINE
 					<p style={{ color: "#de97ff" }}>
 						QUI JE SUIS

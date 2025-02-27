@@ -1,19 +1,29 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import styles from "./Validation.module.css";
+import styles from "./MakeModel.module.css";
+import supabase from "../../helper/supabaseClient";
 
-const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred }) => {
+const MakeModel = ({ validationInput, setValidationInput, handleDiscussRequest }) => {
 	const [imageUrl, setImageUrl] = useState("");
 
 	useEffect(() => {
 		const fetchImage = async () => {
+			const { data: userData, error: userError } = await supabase.auth.getUser();
+
+			if (userError) {
+				console.error("Error fetching user:", userError.message);
+				return;
+			}
+
+			const userId = userData?.user?.id;
 			try {
-				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getimage`, {
+				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getimageperso`, {
 					method: "GET",
 					headers: {
 						"x-api-key": "testapikey",
+						"x-user-id": userId,
 						"ngrok-skip-browser-warning": "69420",
-					},
+					}
 				});
 
 				const text = await response.text();
@@ -29,7 +39,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				}
 			} catch (error) {
 				console.error("Error fetching image:", error);
-				setImageUrl("https://picsum.photos/seed/picsum/450/450");
+				setImageUrl("https://st3.depositphotos.com/8440746/32989/v/450/depositphotos_329897202-stock-illustration-support-icon-vector-question-mark.jpg");
 			}
 		};
 
@@ -74,31 +84,30 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 		fetchImage();
 	}, []);
 
-  return (
-    <div className={styles.validationContainer}>
-      <img src="/circleBlur.svg" alt="" className={styles.validationCircle} />
-      <img
-        src={imageUrl}
-        alt="Fetched validation"
-        className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
-      />
-      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-      <input
-          className={styles.validationField}
-          value={validationInput}
-          onChange={(e) => setValidationInput(e.target.value)}
-          placeholder="Trouve son nom !"
-          onKeyUp={(e) => e.key === "Enter" && handleRequest({ type: "validate" })}
-        />
-        <button
-          className={styles.validationButton}
-          onClick={() => handleRequest({ type: "validate" })}
-        >
-          <img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
-        </button>
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.validationContainer}>
+			<img
+				src={imageUrl}
+				alt="Fetched validation"
+				className={`${styles.validationImage}`}
+			/>
+			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+				<input
+					className={styles.validationField}
+					value={validationInput}
+					onChange={(e) => setValidationInput(e.target.value)}
+					placeholder="Choisis ton personnage !"
+					onKeyUp={(e) => e.key === "Enter" && handleDiscussRequest({ type: "creationmodel" })}
+				/>
+				<button
+					className={styles.validationButton}
+					onClick={() => handleDiscussRequest({ type: "creationmodel" })}
+				>
+					<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
+				</button>
+			</div>
+		</div>
+	);
 };
 
-export default Validation;
+export default MakeModel;
