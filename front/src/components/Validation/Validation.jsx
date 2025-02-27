@@ -4,11 +4,11 @@ import styles from "./Validation.module.css";
 import supabase from "../../helper/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
+import Win from "../../pages/Win/Win";
 
-const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed }) => {
-	const [imageUrl, setImageUrl] = useState("");
-	const [loading, setLoading] = useState(true);
-	const navigate = useNavigate();
+const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed, showWinPopup, setShowWinPopup }) => {
+  const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchImage = async () => {
@@ -85,14 +85,15 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				.select("is_guessed")
 				.eq("user_id", userData.user.id);
 
-			if (error) {
-				console.error("Erreur récupération du profil :", error.message);
-				return;
-			}
-			if (data && data.length > 0 && data[0].is_guessed) {
-				setIsBlurred(false);
-			}
-		}
+      if (error) {
+      console.error("Erreur récupération du profil :", error.message);
+      return;
+      }
+      if (data && data.length > 0 && data[0].is_guessed) {
+        setIsBlurred(false);
+        setShowWinPopup(true);
+      }
+    }
 
 		fetchImage();
 		checkGuessed();

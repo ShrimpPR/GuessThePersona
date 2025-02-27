@@ -20,6 +20,7 @@ const GuessChatBox = () => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 	const [isGuessed, setIsGuessed] = useState(false);
+	const [showWinPopup, setShowWinPopup] = useState(false);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -130,7 +131,7 @@ const GuessChatBox = () => {
 		}
 		setIsGuessed(true);
 
-		return data.is_guessed;
+		return data[0].is_guessed;
 	}
 
 	const decrementQuestions = async () => {
@@ -250,12 +251,12 @@ const GuessChatBox = () => {
 						onChange={(e) => setInput(e.target.value)}
 						placeholder="Pose ta question !"
 						onKeyUp={(e) => e.key === "Enter" && handleSubmitQuestion()}
-						disabled={questions <= 0}
+						disabled={questions <= 0 || showWinPopup}
 					/>
 					<button
 						className={styles.sendButton}
 						onClick={handleSubmitQuestion}
-						disabled={questions <= 0}
+						disabled={questions <= 0 || showWinPopup}
 					>
 						<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
 					</button>
@@ -272,6 +273,8 @@ const GuessChatBox = () => {
 					guesses={guesses}
 					setGuesses={setGuesses}
 					isGuessed={isGuessed}
+					showWinPopup={showWinPopup}
+					setShowWinPopup={setShowWinPopup}
 				/>
 			</div>
 		</div>

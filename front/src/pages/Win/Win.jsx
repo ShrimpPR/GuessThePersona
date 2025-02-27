@@ -1,44 +1,45 @@
-/* eslint-disable react/no-unescaped-entities */
-import { useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Win.module.css";
-import Menu from "../../components/Menu/Menu";
-import supabase from "../../helper/supabaseClient";
-import { useNavigate } from "react-router-dom";
 
-const Win = () => {
-	const navigate = useNavigate();
+const Win = ({ onClose }) => {
+    const [message, setMessage] = useState("Chargement...");
 
-	const fetchUserData = useCallback(async () => {
-		const { data } = await supabase.auth.getUser();
-		const user = data?.user;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}/api/getconseil`, {
+                    method: "GET",
+                    headers: {
+						"x-api-key": "testapikey",
+						"ngrok-skip-browser-warning": "69420",
+                    },
+                });
 
-		if (!user) {
-			navigate("/login");
-			return;
-		}
-	}, [navigate]);
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des données");
+                }
+				console.log("responsegetconseil", response);
+                const data = await response.json();
+                setMessage(data.message || "Réponse reçue !");
+            } catch (error) {
+                setMessage("Erreur lors du chargement du message.");
+            }
+        };
 
-	useEffect(() => {
-		fetchUserData();
-	}, [fetchUserData]);
+        fetchData();
+    }, []);
 
-	const handleRedirect = (url) => {
-		window.location.href = url;
-	};
-
-	return (
-		<div className={styles.WinContainer}>
-			<Menu handleRedirect={handleRedirect} />
-			<div className={styles.WinContent}>
-				<h1 className={styles.title}>BRAVO !</h1>
-				<div className={styles.messageContainer}>
-					<div className={styles.speechBubble}>
-						Tu mérites d'accéder à mes secrets bien guardés... Fais tourner la roue et régale-toi !
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+    return (
+        <div className={styles.winOverlay}>
+            <div className={styles.winContainer}>
+                <h2>🎉 Félicitations ! 🎉</h2>
+                <p>{message}</p>
+                <button className={styles.closeButton} onClick={onClose}>
+                    Fermer
+                </button>
+            </div>
+        </div>
+    );
 };
 
 export default Win;
