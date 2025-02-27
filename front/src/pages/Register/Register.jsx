@@ -25,7 +25,7 @@ function Register() {
 
 			const user = userData?.user;
 			if (user) {
-				// S'il y a un utilisateur, on redirige vers /dashboard
+				// S'il y a un utilisateur, on redirige vers /guesschatbox
 				navigate("/guesschatbox");
 				return;
 			}
@@ -45,7 +45,7 @@ function Register() {
 
 		const { data, error } = await supabase.auth.signUp({
 			email: email,
-			password: password,
+			password: password
 		});
 
 		if (error) {
@@ -100,15 +100,15 @@ function Register() {
 								borderRadius: "5px",
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
-										borderColor: 'white', // Set the outline color to white
+										borderColor: 'white'
 									},
 									'&:hover fieldset': {
-										borderColor: 'white', // Set the outline color to white on hover
+										borderColor: 'white'
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'white', // Set the outline color to white when focused
-									},
-								},
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 
@@ -125,15 +125,15 @@ function Register() {
 								borderRadius: "5px",
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
-										borderColor: 'white', // Set the outline color to white
+										borderColor: 'white'
 									},
 									'&:hover fieldset': {
-										borderColor: 'white', // Set the outline color to white on hover
+										borderColor: 'white'
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'white', // Set the outline color to white when focused
-									},
-								},
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 
@@ -150,15 +150,15 @@ function Register() {
 								borderRadius: "5px",
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
-										borderColor: 'white', // Set the outline color to white
+										borderColor: 'white'
 									},
 									'&:hover fieldset': {
-										borderColor: 'white', // Set the outline color to white on hover
+										borderColor: 'white'
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'white', // Set the outline color to white when focused
-									},
-								},
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 

@@ -18,7 +18,7 @@ function Login() {
 				const { data: userData, error: userError } = await supabase.auth.getUser();
 				const user = userData?.user;
 				if (user) {
-					// S'il y a un utilisateur, on redirige vers /dashboard
+					// S'il y a un utilisateur, on redirige vers /guesschatbox
 					navigate("/guesschatbox");
 					return;
 				}
@@ -40,7 +40,7 @@ function Login() {
 		// Connexion de l'utilisateur
 		const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
 			email: email,
-			password: password,
+			password: password
 		});
 
 		if (signInError) {
@@ -57,7 +57,7 @@ function Login() {
 				// Vérifier si l'utilisateur a déjà un profil
 				const { data: profileData, error: profileError } = await supabase
 					.from("profiles")
-					.select("user_id") // Récupérer uniquement l'ID pour minimiser les données
+					.select("user_id")
 					.eq("user_id", userId)
 					.single();
 
@@ -72,9 +72,8 @@ function Login() {
 						.insert([
 							{
 								user_id: userId,
-								username: email.split("@")[0], // Exemple de pseudo par défaut
-								coins: 100, // Valeur initiale
-							},
+								username: email.split("@")[0]
+							}
 						]);
 
 					if (insertError) {
@@ -87,7 +86,7 @@ function Login() {
 				setMessage("Logged in, but failed to manage profile.");
 			}
 
-			// Redirection vers le tableau de bord après connexion
+			// Redirection vers la guesschatbox après connexion
 			navigate("/guesschatbox");
 		}
 	};
@@ -129,15 +128,15 @@ function Login() {
 								borderRadius: "5px",
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
-										borderColor: 'white', // Set the outline color to white
+										borderColor: 'white'
 									},
 									'&:hover fieldset': {
-										borderColor: 'white', // Set the outline color to white on hover
+										borderColor: 'white'
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'white', // Set the outline color to white when focused
-									},
-								},
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 						<TextField
@@ -153,15 +152,15 @@ function Login() {
 								borderRadius: "5px",
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
-										borderColor: 'white', // Set the outline color to white
+										borderColor: 'white'
 									},
 									'&:hover fieldset': {
-										borderColor: 'white', // Set the outline color to white on hover
+										borderColor: 'white'
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'white', // Set the outline color to white when focused
-									},
-								},
+										borderColor: 'white'
+									}
+								}
 							}}
 						/>
 					</div>
