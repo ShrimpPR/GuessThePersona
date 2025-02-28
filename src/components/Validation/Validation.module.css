@@ -8,6 +8,7 @@
 	align-items: center;
 	width: 30%;
 	min-width: 20%;
+	max-height: 650px;
 }
 
 .validationField {

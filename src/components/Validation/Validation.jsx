@@ -4,12 +4,12 @@ import supabase from "../../helper/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import Win from "../../pages/Win/Win";
-import Lose from "../../pages/Lose/Lose"; // Import the Lose component
+import Lose from "../../pages/Lose/Lose";
 
 const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed, setIsGuessed, showWinPopup, setShowWinPopup }) => {
 	const [imageUrl, setImageUrl] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [showLosePopup, setShowLosePopup] = useState(false); // State for Lose popup
+	const [showLosePopup, setShowLosePopup] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -142,7 +142,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 			setIsGuessed(true);
 			setShowWinPopup(true);
 		} else if (guesses - 1 === 0) {
-			setShowLosePopup(true); // Show Lose popup when guesses reach 0
+			setShowLosePopup(true);
 		}
 	};
 

@@ -263,20 +263,18 @@ const GuessChatBox = () => {
 				</div>
 			</div>
 
-			<div className="ValidationComponent">
-				<Validation
-					validationInput={validationInput}
-					setValidationInput={setValidationInput}
-					handleRequest={(data) => handleRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred, guessedToday })}
-					isBlurred={isBlurred}
-					setIsBlurred={setIsBlurred}
-					guesses={guesses}
-					setGuesses={setGuesses}
-					isGuessed={isGuessed}
-					showWinPopup={showWinPopup}
-					setShowWinPopup={setShowWinPopup}
-				/>
-			</div>
+			<Validation
+				validationInput={validationInput}
+				setValidationInput={setValidationInput}
+				handleRequest={(data) => handleRequest({ ...data, input, validationInput, setMessages, setInput, setValidationInput, setIsTyping, setIsBlurred, guessedToday })}
+				isBlurred={isBlurred}
+				setIsBlurred={setIsBlurred}
+				guesses={guesses}
+				setGuesses={setGuesses}
+				isGuessed={isGuessed}
+				showWinPopup={showWinPopup}
+				setShowWinPopup={setShowWinPopup}
+			/>
 		</div>
 	);
 };
