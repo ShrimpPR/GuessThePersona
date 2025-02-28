@@ -7,20 +7,20 @@ const Win = ({ onClose }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getconseil`, {
-					method: "GET",
+				const response = await fetch(`${import.meta.env.VITE_NGROK_LINK}api/getconseil2`, {
+					method: "POST",
 					headers: {
 						"x-api-key": "testapikey",
-						"ngrok-skip-browser-warning": "69420",
 					},
+					body: JSON.stringify({ theme: "finances" }),
                 });
 
 				if (!response.ok) {
 					throw new Error("Erreur lors de la récupération des données");
 				}
-				console.log("responsegetconseil", response);
                 const data = await response.json();
-                setMessage(data.conseil || "Réponse reçue !");
+				console.log("responsegetconseil", data.response);
+                setMessage(data.response || "Réponse reçue !");
             } catch (error) {
                 setMessage("Erreur lors du chargement du message.");
             }

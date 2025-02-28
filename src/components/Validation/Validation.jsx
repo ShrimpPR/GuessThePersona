@@ -4,10 +4,12 @@ import supabase from "../../helper/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import Win from "../../pages/Win/Win";
+import Lose from "../../pages/Lose/Lose"; // Import the Lose component
 
 const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed, setIsGuessed, showWinPopup, setShowWinPopup }) => {
 	const [imageUrl, setImageUrl] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [showLosePopup, setShowLosePopup] = useState(false); // State for Lose popup
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -24,7 +26,6 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 
 				const text = await response.text();
 				const data = JSON.parse(text);
-				// console.log("Image data:", data);
 
 				if (data.url) {
 					processImage(data.url);
@@ -140,12 +141,22 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 		if (response?.isCorrect) {
 			setIsGuessed(true);
 			setShowWinPopup(true);
+		} else if (guesses - 1 === 0) {
+			setShowLosePopup(true); // Show Lose popup when guesses reach 0
 		}
 	};
 
     useEffect(() => {
         console.log("Win popup state changed:", showWinPopup);
     }, [showWinPopup]);
+
+    useEffect(() => {
+        if (guesses === 0 && !isGuessed) {
+            setShowLosePopup(true);
+        } else {
+			setShowLosePopup(false);
+		}
+    }, [guesses, isGuessed]);
 
 	return (
 		<div className={styles.validationContainer}>
@@ -177,14 +188,18 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 			</div>
 			<div className={styles.validationTries}>Vous avez encore {guesses} essais.</div>
 
-            {<div className={`${styles.winPopup} ${isGuessed ? "" : styles.hidden}`}>
-                <Win onClose={() => {
-                    window.location.reload();
-                    setIsGuessed(false);
-                }} />
+			{isGuessed && (
+                <div className={styles.winPopup}>
+                    <Win onClose={() => {
+                        window.location.reload();
+                        setIsGuessed(false);
+                    }} />
+                </div>
+            )}
+
+            {<div className={`${styles.losePopup} ${showLosePopup ? "" : styles.hidden}`}>
+                <Lose />
             </div>}
-
-
 		</div>
 	);
 };
