@@ -23,7 +23,7 @@ const Win = ({ onClose }) => {
 					throw new Error("Erreur lors de la récupération des données");
 				}
 				const data = await response.json();
-				console.log("responsegetconseil", data.response);
+				// console.log("responsegetconseil", data.response);
 				setMessage(data.response || "Réponse reçue !");
 			} catch (error) {
 				setMessage("Erreur lors du chargement du message.", error);
@@ -42,6 +42,8 @@ const Win = ({ onClose }) => {
 			<div className={styles.winContainer}>
 				<h2>🎉 Félicitations ! 🎉</h2>
 				<FortuneWheel onSpinResult={handleSpinResult} />
+				<h2>Voici un conseil pour vous :</h2>
+				<br />
 				<p>{message}</p>
 				<button className={styles.closeButton} onClick={onClose}>
 					Fermer

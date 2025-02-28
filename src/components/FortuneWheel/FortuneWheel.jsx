@@ -15,7 +15,6 @@ const FortuneWheel = ({ onSpinResult }) => {
 	useEffect(() => {
 		const newPrizeNumber = Math.floor(Math.random() * segments.length);
 		setPrizeNumber(newPrizeNumber);
-		console.log("I am going for a spin");
 		setMustSpin(true);
 	}, []);
 
@@ -31,7 +30,7 @@ const FortuneWheel = ({ onSpinResult }) => {
 				}}
 				backgroundColors={backgroundColors}
 				textColors={["#ffffff"]}
-				spinDuration={0.4} // Adjust the duration to make it spin faster
+				spinDuration={0.4}
 			/>
 		</div>
 	);
