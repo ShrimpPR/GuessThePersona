@@ -78,3 +78,7 @@
 	font-weight: 700;
 	white-space: nowrap;
 }
+
+.hidden {
+	display: none;
+}

@@ -1,12 +1,11 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import styles from "./Validation.module.css";
 import supabase from "../../helper/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-// import Win from "../../pages/Win/Win";
+import Win from "../../pages/Win/Win";
 
-const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed, showWinPopup, setShowWinPopup }) => {
+const Validation = ({ validationInput, setValidationInput, handleRequest, isBlurred, setIsBlurred, guesses, setGuesses, isGuessed, setIsGuessed, showWinPopup, setShowWinPopup }) => {
 	const [imageUrl, setImageUrl] = useState("");
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
@@ -24,8 +23,6 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				});
 
 				const text = await response.text();
-				// console.log("Raw response text:", text);
-
 				const data = JSON.parse(text);
 				// console.log("Image data:", data);
 
@@ -95,7 +92,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				setIsBlurred(false);
 				setShowWinPopup(true);
 			}
-		}
+		};
 
 		fetchImage();
 		checkGuessed();
@@ -134,32 +131,33 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 		console.log("Guesses mises à jour avec succès !");
 	};
 
-	const handleSubmitGuess = () => {
+	const handleSubmitGuess = async () => {
 		if (guesses <= 0) return;
-		decrementGuesses();
-		handleRequest({ type: "validate" });
+
+		await decrementGuesses();
+		const response = await handleRequest({ type: "validate" });
+
+		if (response?.isCorrect) {
+			setIsGuessed(true);
+			setShowWinPopup(true);
+		}
 	};
+
+    useEffect(() => {
+        console.log("Win popup state changed:", showWinPopup);
+    }, [showWinPopup]);
 
 	return (
 		<div className={styles.validationContainer}>
-			{
-				loading ? (
-					<CircularProgress />
-				) : (
-					<>
-						<img
-							src="/circleBlur.svg"
-							alt="frame"
-							className={styles.validationCircle}
-						/>
-						<img
-							src={imageUrl}
-							alt="Fetched validation"
-							className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`}
-						/>
-					</>
-				)
-			}
+			{loading ? (
+				<CircularProgress />
+			) : (
+				<>
+					<img src="/circleBlur.svg" alt="frame" className={styles.validationCircle} />
+					<img src={imageUrl} alt="Fetched validation" className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`} />
+				</>
+			)}
+
 			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 				<input
 					className={styles.validationField}
@@ -177,9 +175,16 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 					<img src="/Icons/rightArrowIcon.svg" alt="Send" style={{ width: "2rem" }} />
 				</button>
 			</div>
-			<div className={styles.validationTries}>
-				Vous avez encore {guesses} essais.
-			</div>
+			<div className={styles.validationTries}>Vous avez encore {guesses} essais.</div>
+
+            {<div className={`${styles.winPopup} ${isGuessed ? "" : styles.hidden}`}>
+                <Win onClose={() => {
+                    window.location.reload();
+                    setIsGuessed(false);
+                }} />
+            </div>}
+
+
 		</div>
 	);
 };
