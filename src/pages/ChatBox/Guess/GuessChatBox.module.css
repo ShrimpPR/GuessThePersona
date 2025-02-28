@@ -24,10 +24,6 @@
 	z-index: 1001;
 }
 
-.ValidationComponent {
-	margin-left: 16px;
-}
-
 @media (max-width: 1024px) {
 	.GuessContainer {
 		flex-direction: column;
@@ -115,6 +111,15 @@
 	flex-direction: column;
 	align-items: center;
 	font-size: 3rem;
+	font-weight: 700;
+}
+
+.GuessChatBoxText {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 3rem;
+	width: 300px;
 	font-weight: 700;
 }
 

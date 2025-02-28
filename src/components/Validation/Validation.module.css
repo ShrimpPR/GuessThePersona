@@ -8,6 +8,7 @@
 	align-items: center;
 	width: 30%;
 	min-width: 20%;
+	max-height: 650px;
 }
 
 .validationField {
@@ -39,6 +40,7 @@
 	border-radius: 50%;
 	object-fit: cover;
 	position: relative;
+	max-width: 450px;
 	z-index: 1;
 }
 
@@ -52,7 +54,7 @@
 }
 
 .blurred {
-	filter: blur(30px);
+	filter: blur(60px);
 	transition: filter 0.3s ease-in-out;
 }
 
@@ -76,4 +78,8 @@
 	font-size: 1.2rem;
 	font-weight: 700;
 	white-space: nowrap;
+}
+
+.hidden {
+	display: none;
 }

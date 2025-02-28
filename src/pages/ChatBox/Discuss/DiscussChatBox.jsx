@@ -68,7 +68,7 @@ const DiscussChatBox = () => {
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-			console.log(userData?.user?.id);
+			// console.log(userData?.user?.id);
 
 			const data = await response.json();
 			return data;
@@ -81,7 +81,7 @@ const DiscussChatBox = () => {
 	useEffect(() => {
 		fetchMemory().then((data) => {
 			if (data && data.response) {
-				console.log("Memory fetched:", data.response);
+				// console.log("Memory fetched:", data.response);
 
 				const responseArray = Array.isArray(data.response) ? data.response : [data.response];
 
