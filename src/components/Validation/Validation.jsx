@@ -150,14 +150,6 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
         console.log("Win popup state changed:", showWinPopup);
     }, [showWinPopup]);
 
-    useEffect(() => {
-        if (guesses === 0 && !isGuessed) {
-            setShowLosePopup(true);
-        } else {
-			setShowLosePopup(false);
-		}
-    }, [guesses, isGuessed]);
-
 	return (
 		<div className={styles.validationContainer}>
 			{loading ? (
@@ -197,9 +189,10 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
                 </div>
             )}
 
-            {<div className={`${styles.losePopup} ${showLosePopup ? "" : styles.hidden}`}>
-                <Lose />
-            </div>}
+            {!isGuessed && guesses === 0 && (
+				<div className={styles.losePopup}>
+                	<Lose />
+            	</div>)}
 		</div>
 	);
 };
