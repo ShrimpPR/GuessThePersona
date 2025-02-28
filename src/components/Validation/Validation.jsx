@@ -146,9 +146,9 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 		}
 	};
 
-    useEffect(() => {
-        console.log("Win popup state changed:", showWinPopup);
-    }, [showWinPopup]);
+	useEffect(() => {
+		console.log("Win popup state changed:", showWinPopup);
+	}, [showWinPopup]);
 
 	return (
 		<div className={styles.validationContainer}>
@@ -160,7 +160,9 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 					<img src={imageUrl} alt="Fetched validation" className={`${styles.validationImage} ${isBlurred ? styles.blurred : ""}`} />
 				</>
 			)}
-
+			<div>
+				<h1 style={{ marginBottom: "10px" }}>Entrez votre réponse:</h1>
+			</div>
 			<div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 				<input
 					className={styles.validationField}
@@ -181,18 +183,18 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 			<div className={styles.validationTries}>Vous avez encore {guesses} essais.</div>
 
 			{isGuessed && (
-                <div className={styles.winPopup}>
-                    <Win onClose={() => {
-                        window.location.reload();
-                        setIsGuessed(false);
-                    }} />
-                </div>
-            )}
+				<div className={styles.winPopup}>
+					<Win onClose={() => {
+						window.location.reload();
+						setIsGuessed(false);
+					}} />
+				</div>
+			)}
 
-            {!isGuessed && guesses === 0 && (
+			{!isGuessed && guesses === 0 && (
 				<div className={styles.losePopup}>
-                	<Lose />
-            	</div>)}
+					<Lose />
+				</div>)}
 		</div>
 	);
 };
