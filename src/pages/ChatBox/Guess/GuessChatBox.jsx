@@ -228,7 +228,7 @@ const GuessChatBox = () => {
 			<div className={styles.GuessChatContainer}>
 				<div className={styles.GuessChatBoxTitle}>
 					DEVINE
-					<p style={{ color: "#de97ff" }}>
+					<p className={styles.GuessChatBoxText} style={{ color: "#de97ff" }}>
 						QUI JE SUIS
 					</p>
 				</div>
