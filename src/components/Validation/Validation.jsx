@@ -24,7 +24,7 @@ const Validation = ({ validationInput, setValidationInput, handleRequest, isBlur
 				});
 
 				const text = await response.text();
-				console.log("Raw response text:", text);
+				// console.log("Raw response text:", text);
 
 				const data = JSON.parse(text);
 				console.log("Image data:", data);
